@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#  Dataset
+/data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv
