@@ -55,10 +55,45 @@ def main(**kwargs):
             x_train, x_test, y_train, y_test = train_test_split(df_transformed.loc[:, df_transformed.columns != 'month'], df_transformed['month'], random_state=0)
             clf_1 = train_with_partial_fit(x_train, y_train, clf=SGDClassifier(), all_classes=df_transformed['month'].unique().compute())
 
+class Tasks(Enum):
+    TASK_1 = 'task-1'
+    TASK_2 = 'task-2'
+    TASK_3 = 'task-3'
             # TODO Dask ml
 
             # TODO XGBoost
 
+def main(task: str, dataset_path: str):
+    if task == Tasks.TASK_1.value:
+        df = read_csv(dataset_path)
+        print(df.head())
+
+    elif task == Tasks.TASK_3.value:
+        df = read_csv(dataset_path)
+
+        # Top 10 violations types
+        violations_per_type = groupby_count(df, 'Violation Code')
+        violations_per_type['Violation Description'] = list(map(
+            lambda x: map_code_to_description(x),
+            violations_per_type['Violation Code']))
+        plot_bar(violations_per_type,
+            'Violation Description',
+            'Ticket Count',
+            'top_violation_types.png')
+
+        # Top 10 counties with most violations
+        violations_per_county = groupby_count(df, 'Violation County')
+        plot_bar(violations_per_county,
+            'Violation County',
+            'Ticket Count',
+            'top_violation_counties.png')
+
+        # Top 10 states with most violations outside NY
+        violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
+        plot_bar(violations_per_state,
+            'Registration State',
+            'Ticket Count',
+            'top_violation_states_outside_NY.png')
             # TODO Evaluate on test set, compute useful metrics (is a regression problem)
 
             # Also turn into classification problem - compute average and classify if number of parking violations will be above or below average
@@ -73,7 +108,6 @@ def main(**kwargs):
     else:
         raise NotImplementedError()
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='ny-parking-violations-analysis')
 
@@ -83,6 +117,11 @@ if __name__ == '__main__':
     # TASK 1
     task1_parser = subparsers.add_parser(Tasks.TASK_1.value)
     task1_parser.add_argument('--dataset-path', type=str,
+                              default=os.path.join(os.path.dirname(__file__), 'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv'),
+                              help='Path to dataset')
+    task3_parser = subparsers.add_parser(Tasks.TASK_3.value)
+    task3_parser.add_argument('--dataset-path', type=str,
+                              default=os.path.join(os.path.dirname(__file__), 'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv'),
                               default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
                               help='Path to dataset')
     task1_parser.add_argument("--plot-dir-path", type=str, default='.', help='path to folder in which to save plots')
