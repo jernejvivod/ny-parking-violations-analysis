@@ -1,11 +1,21 @@
 import argparse
+import dateutil.parser as dparser
 import glob
 import os
+from datetime import datetime
+from enum import Enum
+import pandas as pd
 
 import matplotlib.pyplot as plt
 from dask_ml.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 
+from .ny_parking_violations_analysis.exploratory_data_analysis import (
+    groupby_count,
+    map_datestr_to_dt,
+    plot_bar,
+)
+from .ny_parking_violations_analysis.utilities import map_code_to_description, read_csv
 from ny_parking_violations_analysis import BASE_DATASET_DEFAULT_PATH, DATASET_AVRO_PATH, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY
 from ny_parking_violations_analysis import SCHEMA_FOR_AVRO
 from ny_parking_violations_analysis import Tasks, OutputFormat, MLTask
@@ -70,6 +80,22 @@ def main(task: str, dataset_path: str):
 
     elif task == Tasks.TASK_3.value:
         df = read_csv(dataset_path)
+        df = map_datestr_to_dt(df)
+
+        # Violations per day of week
+        df['Weekday'] = df['Issue Date'].dt.weekday
+        violations_per_day = groupby_count(df, 'Weekday', 7)
+        violations_per_day = violations_per_day.sort_values('Weekday')
+        plot_bar(
+            violations_per_day, 'Weekday', 'Ticket Count', 'violations_per_weekday.png'
+        )
+
+        # Violations per day in year
+        violations_per_day = groupby_count(df, 'Issue Date', 365)
+        violations_per_day = violations_per_day.sort_values('Issue Date')
+        plot_bar(
+            violations_per_day, 'Issue Date', 'Ticket Count', 'violations_per_day.png'
+        )
 
         # Top 10 violations types
         violations_per_type = groupby_count(df, 'Violation Code')
@@ -81,6 +107,7 @@ def main(task: str, dataset_path: str):
             'Ticket Count',
             'top_violation_types.png')
 
+        # # Top 10 counties with most violations
         # Top 10 counties with most violations
         violations_per_county = groupby_count(df, 'Violation County')
         plot_bar(violations_per_county,
@@ -88,12 +115,15 @@ def main(task: str, dataset_path: str):
             'Ticket Count',
             'top_violation_counties.png')
 
+        # # Top 10 states with most violations outside NY
+
         # Top 10 states with most violations outside NY
         violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
         plot_bar(violations_per_state,
             'Registration State',
             'Ticket Count',
             'top_violation_states_outside_NY.png')
+
             # TODO Evaluate on test set, compute useful metrics (is a regression problem)
 
             # Also turn into classification problem - compute average and classify if number of parking violations will be above or below average
@@ -108,6 +138,7 @@ def main(task: str, dataset_path: str):
     else:
         raise NotImplementedError()
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='ny-parking-violations-analysis')
 
@@ -116,10 +147,25 @@ if __name__ == '__main__':
 
     # TASK 1
     task1_parser = subparsers.add_parser(Tasks.TASK_1.value)
-    task1_parser.add_argument('--dataset-path', type=str,
-                              default=os.path.join(os.path.dirname(__file__), 'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv'),
-                              help='Path to dataset')
+    task1_parser.add_argument(
+        '--dataset-path',
+        type=str,
+        default=os.path.join(
+            os.path.dirname(__file__),
+            'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv',
+        ),
+        help='Path to dataset',
+    )
     task3_parser = subparsers.add_parser(Tasks.TASK_3.value)
+    task3_parser.add_argument(
+        '--dataset-path',
+        type=str,
+        default=os.path.join(
+            os.path.dirname(__file__),
+            'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv',
+        ),
+        help='Path to dataset',
+    )
     task3_parser.add_argument('--dataset-path', type=str,
                               default=os.path.join(os.path.dirname(__file__), 'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv'),
                               default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
