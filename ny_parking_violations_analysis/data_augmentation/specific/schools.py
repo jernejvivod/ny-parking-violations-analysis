@@ -8,7 +8,7 @@ from ny_parking_violations_analysis.data_augmentation import PATH_TO_CACHED_SCHO
 from ny_parking_violations_analysis.data_augmentation.specific import get_dist_closest
 
 
-def join_with(df: dd, street_coordinates: dict):
+def join_with(df: dd, street_coordinates: dict) -> dd:
     """Join dataframe representing the main dataset with the dataframe containing the distance to the closest elementary or high school
     and the name of the school (using the provided dataset).
 

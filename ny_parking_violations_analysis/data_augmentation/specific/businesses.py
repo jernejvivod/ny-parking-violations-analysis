@@ -14,7 +14,7 @@ from ny_parking_violations_analysis.data_augmentation.specific import get_dist_c
 from ny_parking_violations_analysis.data_augmentation.specific import name_to_coordinates
 
 
-def join_with(df: dd, street_coordinates: dict):
+def join_with(df: dd, street_coordinates: dict) -> dd:
     """Join dataframe representing the main dataset with the dataframe containing the distance to the closest major
     business and the name of the business (as stated on the specified website).
 

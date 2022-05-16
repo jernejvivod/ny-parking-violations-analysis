@@ -21,8 +21,9 @@ def prepare_address(address: str, state_suff: str):
     return address_single_whitespace.replace(' ', '+').replace('&', '%26').replace('\'', '%27') + ',+' + state_suff
 
 
-def get_name_coordinates(address: str, google_api_key):
+def get_name_coordinates(address: str, google_api_key, max_retries=10):
     req_url = 'https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}'.format(address, google_api_key)
+    retries = 10
     while True:
         try:
             res = requests.get(req_url).json()
@@ -32,6 +33,9 @@ def get_name_coordinates(address: str, google_api_key):
             else:
                 return {'lat': 0.0, 'lng': 0.0}
         except Exception:
+            if retries > max_retries:
+                return {'lat': 0.0, 'lng': 0.0}
+            retries += 1
             time.sleep(1)
 
 
