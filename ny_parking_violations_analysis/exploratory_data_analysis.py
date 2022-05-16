@@ -1,5 +1,4 @@
 import dask.dataframe as dd
-import dateutil.parser as dparser
 import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import datetime
