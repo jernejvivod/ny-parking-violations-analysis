@@ -75,7 +75,7 @@ SCHEMA_FOR_AVRO = {'name': 'Violations', 'doc': 'Parking Violations Dataset',
                    ]}
 
 
-def read_base_dataset(base_dataset_path: str) -> dd:
+def read_base_dataset(base_dataset_path: str, parse_date=True) -> dd:
     df = dd.read_csv(base_dataset_path,
                      dtype={
                          'Summons Number': str,
@@ -124,7 +124,8 @@ def read_base_dataset(base_dataset_path: str) -> dd:
                      },
                      blocksize='512MB',
                      assume_missing=True)
-    # df['Issue Date'] = dd.to_datetime(df['Issue Date'])  # TODO MAKE ARGUMENT TO ASK TO DO THIS (BECAUSE OF TASK 1)
+    if parse_date:
+        df['Issue Date'] = dd.to_datetime(df['Issue Date'])
     return df
 
 
