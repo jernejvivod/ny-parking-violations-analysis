@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 from dask_ml.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 
-from ny_parking_violations_analysis import BASE_DATASET_DEFAULT_PATH, DATASET_AVRO_PATH, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, Tasks, OutputFormat, MLTask
+from ny_parking_violations_analysis import BASE_DATASET_DEFAULT_PATH, DATASET_AVRO_PATH, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY
 from ny_parking_violations_analysis import SCHEMA_FOR_AVRO
+from ny_parking_violations_analysis import Tasks, OutputFormat, MLTask
 from ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
 from ny_parking_violations_analysis.data_augmentation import PATH_TO_AUGMENTED_DATASET_CSV, DataAugEnum
 from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
@@ -17,7 +18,7 @@ from ny_parking_violations_analysis.ml.transform_dataset import transform_for_tr
 
 def main(**kwargs):
     if kwargs['task'] == Tasks.TASK_1.value:
-        df = read_base_dataset(kwargs['dataset_path'])
+        df = read_base_dataset(kwargs['dataset_path'], parse_date=False)
         if not glob.glob(DATASET_AVRO_PATH):
             df.to_bag(format='dict').to_avro(DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, compute=True)
         if not glob.glob(DATASET_PARQUET_PATH + ('/' if DATASET_PARQUET_PATH[-1] != '/' else '') + 'part.*.parquet'):
