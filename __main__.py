@@ -99,30 +99,39 @@ def main(task: str, dataset_path: str):
 
         # Top 10 violations types
         violations_per_type = groupby_count(df, 'Violation Code')
-        violations_per_type['Violation Description'] = list(map(
-            lambda x: map_code_to_description(x),
-            violations_per_type['Violation Code']))
-        plot_bar(violations_per_type,
+        violations_per_type['Violation Description'] = list(
+            map(
+                lambda x: map_code_to_description(x),
+                violations_per_type['Violation Code'],
+            )
+        )
+        plot_bar(
+            violations_per_type,
             'Violation Description',
             'Ticket Count',
-            'top_violation_types.png')
+            'top_violation_types.png',
+        )
 
         # # Top 10 counties with most violations
         # Top 10 counties with most violations
         violations_per_county = groupby_count(df, 'Violation County')
-        plot_bar(violations_per_county,
+        plot_bar(
+            violations_per_county,
             'Violation County',
             'Ticket Count',
-            'top_violation_counties.png')
+            'top_violation_counties.png',
+        )
 
         # # Top 10 states with most violations outside NY
 
         # Top 10 states with most violations outside NY
         violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
-        plot_bar(violations_per_state,
+        plot_bar(
+            violations_per_state,
             'Registration State',
             'Ticket Count',
-            'top_violation_states_outside_NY.png')
+            'top_violation_states_outside_NY.png',
+        )
 
             # TODO Evaluate on test set, compute useful metrics (is a regression problem)
 
