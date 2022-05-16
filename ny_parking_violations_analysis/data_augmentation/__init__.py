@@ -11,6 +11,7 @@ class DataAugEnum(Enum):
 
 
 PATH_TO_CACHED_STREET_COORDINATES = os.path.join(os.path.dirname(__file__), 'cached/street_coordinates_dict.pkl')
+PATH_TO_CHKPT_STREET_COORDINATES_GEOCODING = os.path.join(os.path.dirname(__file__), 'cached/street_coordinates_dict_chkpt.pkl')
 PATH_TO_CACHED_UNIQUE_STREETS = os.path.join(os.path.dirname(__file__), 'cached/unique_streets.pkl')
 PATH_TO_CACHED_ATTRACTIONS = os.path.join(os.path.dirname(__file__), 'cached/attractions_df.pkl')
 PATH_TO_CACHED_ATTRACTIONS_DISTS = os.path.join(os.path.dirname(__file__), 'cached/attractions_dists_df.pkl')
@@ -22,3 +23,4 @@ PATH_TO_CACHED_CONCERTS = os.path.join(os.path.dirname(__file__), 'cached/concer
 PATH_TO_CACHED_GEOCODED_CONCERTS = os.path.join(os.path.dirname(__file__), 'cached/concerts_geocoded_df.pkl')
 
 PATH_TO_AUGMENTED_DATASET_CSV = os.path.join(os.path.dirname(__file__), '../../data/dataset_augmented.csv')
+PATH_TO_AUGMENTED_DATASET_PARQUET = os.path.join(os.path.dirname(__file__), '../../data/dataset_augmented.csv')  # TODO

@@ -12,21 +12,21 @@ import ny_parking_violations_analysis.data_augmentation.specific.schools as scho
 import ny_parking_violations_analysis.data_augmentation.specific.weather as weather
 from ny_parking_violations_analysis import get_google_api_key
 from ny_parking_violations_analysis import read_base_dataset
-from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_CACHED_UNIQUE_STREETS, PATH_TO_CACHED_STREET_COORDINATES
+from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_CACHED_UNIQUE_STREETS, PATH_TO_CACHED_STREET_COORDINATES, PATH_TO_CHKPT_STREET_COORDINATES_GEOCODING
 from ny_parking_violations_analysis.data_augmentation.specific import get_unique_streets, name_to_coordinates
 
 
-def get_augmented_dataset(base_dataset_path: str, data_augmentations: Iterable = tuple(e.value for e in DataAugEnum)) -> dd:
+def get_augmented_dataset(base_dataset_path: str, data_augmentations: Iterable = tuple(e.value for e in DataAugEnum), geoencoding_chkpt_every: int = 100) -> dd:
     """Get augmented dataset. Parse original dataset as a Dask Dataframe and add specified augmentations.
 
     :param base_dataset_path: path to original dataset
     :param data_augmentations: list of names of augmentations to add
+    :param geoencoding_chkpt_every: after how many iterations to save checkpoint for geoencoding unique street addresses
     :return: Dask DataFrame representing the augmented dataset.
     """
 
     # parse base dataset
     df = read_base_dataset(base_dataset_path)
-    df['Issue Date'] = dd.to_datetime(df['Issue Date'])
 
     # if street to coordinates mapping needed
     street_coordinates = None
@@ -51,11 +51,25 @@ def get_augmented_dataset(base_dataset_path: str, data_augmentations: Iterable =
                     pkl.dump(unique_streets, f)
 
             # map streets to coordinates
-            street_coordinates = dict()
             google_api_key = get_google_api_key()
-            for street in tqdm.tqdm(unique_streets, desc='Performing geocoding using the Google Maps API', unit='address'):
+
+            # sort streets and check if checkpoint for geocoding exists
+            unique_streets_sorted = sorted(filter(lambda x: isinstance(x, str), unique_streets))
+            if os.path.exists(PATH_TO_CHKPT_STREET_COORDINATES_GEOCODING):
+                with open(PATH_TO_CHKPT_STREET_COORDINATES_GEOCODING, 'rb') as f:
+                    street_coordinates = pkl.load(f)
+                    start_idx = len(street_coordinates)
+            else:
+                street_coordinates = dict()
+                start_idx = 0
+
+            # get geoencodings for streets and save checkpoint each specified number of iterations
+            for idx, street in enumerate(tqdm.tqdm(unique_streets_sorted[start_idx:], desc='Performing geocoding using the Google Maps API', unit='address')):
                 if isinstance(street, str):
                     street_coordinates[street] = name_to_coordinates(street, 'NY', google_api_key)
+                if idx % geoencoding_chkpt_every == 0:
+                    with open(PATH_TO_CHKPT_STREET_COORDINATES_GEOCODING, 'wb') as f:
+                        pkl.dump(street_coordinates, f)
 
             with open(PATH_TO_CACHED_STREET_COORDINATES, 'wb') as f:
                 pkl.dump(street_coordinates, f)

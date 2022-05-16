@@ -14,7 +14,7 @@ from ny_parking_violations_analysis.data_augmentation.specific import WEBSITE_CO
 from ny_parking_violations_analysis.data_augmentation.specific import name_to_coordinates
 
 
-def join_with(df: dd):
+def join_with(df: dd) -> dd:
     """Join dataframe representing the main dataset with the dataframe containing the number of major concerts for that day
     (as stated on the specified website).
 
@@ -30,7 +30,7 @@ def join_with(df: dd):
         if os.path.exists(PATH_TO_CACHED_CONCERTS):
             df_concerts = pd.read_pickle(PATH_TO_CACHED_CONCERTS)
         else:
-            df_concerts = parse_concerts(year_limit=2020)
+            df_concerts = parse_concerts(year_limit=2019)
             df_concerts.to_pickle(PATH_TO_CACHED_CONCERTS)
 
         df_relevant_cols = df_concerts[['Date', 'Concert', 'Venue']]
