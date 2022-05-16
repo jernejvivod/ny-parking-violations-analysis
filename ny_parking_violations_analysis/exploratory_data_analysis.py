@@ -19,7 +19,7 @@ def groupby_count(df: dd.DataFrame, col: str, amt: int = 10) -> dd.DataFrame:
 
 def plot_bar(df: pd.DataFrame, x: str, y: str, filename: str) -> None:
     ax = df.plot(x=x, y=y, kind='bar')
-    
+
     # Skip crowded ticks, works only for datetime column x
     if len(df[x]) > 15:
         xticks = ax.xaxis.get_major_ticks()
