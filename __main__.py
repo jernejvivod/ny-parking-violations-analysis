@@ -9,6 +9,7 @@ from dask_ml.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 
 from .ny_parking_violations_analysis.exploratory_data_analysis import (
+from .ny_parking_violations_analysis.exploratory_analysis.analysis import (
     groupby_count,
     map_datestr_to_dt,
     plot_bar,
@@ -23,6 +24,10 @@ from ny_parking_violations_analysis.data_augmentation.augment import get_augment
 from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
 from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 
+from .ny_parking_violations_analysis.exploratory_analysis.utilities import (
+    map_code_to_description,
+    read_csv,
+)
 
 def main(**kwargs):
     if kwargs['task'] == Tasks.TASK_1.value:
@@ -112,6 +117,7 @@ def main(task: str, dataset_path: str):
 
         # # Top 10 counties with most violations
         # Top 10 counties with most violations
+        # Top 10 counties with most violations
         violations_per_county = groupby_count(df, 'Violation County')
         plot_bar(
             violations_per_county,
@@ -122,6 +128,7 @@ def main(task: str, dataset_path: str):
 
         # # Top 10 states with most violations outside NY
 
+        # Top 10 states with most violations outside NY
         # Top 10 states with most violations outside NY
         violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
         plot_bar(
