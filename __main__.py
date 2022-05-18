@@ -1,35 +1,25 @@
 import argparse
-import dateutil.parser as dparser
 import glob
 import os
-from enum import Enum
 
 import matplotlib.pyplot as plt
 from dask_ml.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 
-from .ny_parking_violations_analysis.exploratory_data_analysis import (
-from .ny_parking_violations_analysis.exploratory_analysis.analysis import (
-    groupby_count,
-    map_datestr_to_dt,
-    plot_bar,
-)
-from .ny_parking_violations_analysis.utilities import map_code_to_description, read_csv
-from ny_parking_violations_analysis import BASE_DATASET_DEFAULT_PATH, DATASET_AVRO_PATH, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY
-from ny_parking_violations_analysis import SCHEMA_FOR_AVRO
-from ny_parking_violations_analysis import Tasks, OutputFormat, MLTask
+from ny_parking_violations_analysis import DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, BASE_DATASET_DEFAULT_PATH
+from ny_parking_violations_analysis import OutputFormat
+from ny_parking_violations_analysis import Tasks, MLTask
 from ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
-from ny_parking_violations_analysis.data_augmentation import PATH_TO_AUGMENTED_DATASET_CSV, DataAugEnum, PATH_TO_AUGMENTED_DATASET_PARQUET
+from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_AUGMENTED_DATASET_PARQUET, PATH_TO_AUGMENTED_DATASET_CSV
 from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
+from ny_parking_violations_analysis.exploratory_analysis.analysis import map_datestr_to_dt, groupby_count, plot_bar
+from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
 from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
 from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 
-from .ny_parking_violations_analysis.exploratory_analysis.utilities import (
-    map_code_to_description,
-    read_csv,
-)
 
 def main(**kwargs):
+    # TASK 1
     if kwargs['task'] == Tasks.TASK_1.value:
         df = read_base_dataset(kwargs['dataset_path'], parse_date=False)
         if not glob.glob(DATASET_AVRO_PATH):
@@ -50,6 +40,7 @@ def main(**kwargs):
         else:
             raise ValueError('\'{0}\' is not a directory'.format(kwargs['plot_dir_path']))
 
+    # TASK 2
     elif kwargs['task'] == Tasks.TASK_2.value:
         # compute and save augmented dataset
         augmented_dataset = get_augmented_dataset(kwargs['dataset_path'], data_augmentations=kwargs['augmentations'])
@@ -59,33 +50,15 @@ def main(**kwargs):
             augmented_dataset.to_csv(PATH_TO_AUGMENTED_DATASET_CSV, single_file=True)
         else:
             raise NotImplementedError()
-    elif kwargs['task'] == Tasks.TASK_5.value:
-        # compute and save augmented dataset
-        if kwargs['ml_task'] == MLTask.VIOLATIONS_FOR_DAY.value:
-            df = read_base_dataset(kwargs['dataset_path'])
-            columns_for_violation = get_base_dataset_columns()
-            df_transformed = transform_for_training_day(df, columns_for_violation, 3).repartition(partition_size='128MB').persist()  # Computed dataset is small. Can be persisted in memory.
-            x_train, x_test, y_train, y_test = train_test_split(df_transformed.loc[:, df_transformed.columns != 'month'], df_transformed['month'], random_state=0)
-            clf_1 = train_with_partial_fit(x_train, y_train, clf=SGDClassifier(), all_classes=df_transformed['month'].unique().compute())
 
-class Tasks(Enum):
-    TASK_1 = 'task-1'
-    TASK_2 = 'task-2'
-    TASK_3 = 'task-3'
-            # TODO Dask ml
+    # TASK 3
+    elif kwargs['task'] == Tasks.TASK_3.value:
 
-            # TODO XGBoost
-
-def main(task: str, dataset_path: str):
-    if task == Tasks.TASK_1.value:
-        df = read_csv(dataset_path)
-        print(df.head())
-
-    elif task == Tasks.TASK_3.value:
-        df = read_csv(dataset_path)
+        # parse dataset
+        df = read_base_dataset(kwargs['dataset_path'], parse_date=False)
         df = map_datestr_to_dt(df)
 
-        # Violations per day of week
+        # violations per day of week
         df['Weekday'] = df['Issue Date'].dt.weekday
         violations_per_day = groupby_count(df, 'Weekday', 7)
         violations_per_day = violations_per_day.sort_values('Weekday')
@@ -93,14 +66,14 @@ def main(task: str, dataset_path: str):
             violations_per_day, 'Weekday', 'Ticket Count', 'violations_per_weekday.png'
         )
 
-        # Violations per day in year
+        # violations per day in year
         violations_per_day = groupby_count(df, 'Issue Date', 365)
         violations_per_day = violations_per_day.sort_values('Issue Date')
         plot_bar(
             violations_per_day, 'Issue Date', 'Ticket Count', 'violations_per_day.png'
         )
 
-        # Top 10 violations types
+        # top 10 violations types
         violations_per_type = groupby_count(df, 'Violation Code')
         violations_per_type['Violation Description'] = list(
             map(
@@ -115,9 +88,7 @@ def main(task: str, dataset_path: str):
             'top_violation_types.png',
         )
 
-        # # Top 10 counties with most violations
-        # Top 10 counties with most violations
-        # Top 10 counties with most violations
+        # top 10 counties with most violations
         violations_per_county = groupby_count(df, 'Violation County')
         plot_bar(
             violations_per_county,
@@ -126,10 +97,7 @@ def main(task: str, dataset_path: str):
             'top_violation_counties.png',
         )
 
-        # # Top 10 states with most violations outside NY
-
-        # Top 10 states with most violations outside NY
-        # Top 10 states with most violations outside NY
+        # top 10 states with most violations outside NY
         violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
         plot_bar(
             violations_per_state,
@@ -138,19 +106,19 @@ def main(task: str, dataset_path: str):
             'top_violation_states_outside_NY.png',
         )
 
-            # TODO Evaluate on test set, compute useful metrics (is a regression problem)
+    # TASK 4 (TODO)
+    elif kwargs['task'] == Tasks.TASK_4.value:
+        pass
 
-            # Also turn into classification problem - compute average and classify if number of parking violations will be above or below average
-
-        elif kwargs['ml_task'] == MLTask.CAR_MAKE.value:
-            pass
-            # TODO process data and save to disk
-            # Read data from disk and perform training using the three methods (train the three classifiers)
-
-            # evaluate on test set, print confusion matrix
-
-    else:
-        raise NotImplementedError()
+    # TASK 5
+    elif kwargs['task'] == Tasks.TASK_5.value:
+        # compute and save augmented dataset
+        if kwargs['ml_task'] == MLTask.VIOLATIONS_FOR_DAY.value:
+            df = read_base_dataset(kwargs['dataset_path'])
+            columns_for_violation = get_base_dataset_columns()
+            df_transformed = transform_for_training_day(df, columns_for_violation, 3).repartition(partition_size='128MB').persist()  # Computed dataset is small. Can be persisted in memory.
+            x_train, x_test, y_train, y_test = train_test_split(df_transformed.loc[:, df_transformed.columns != 'month'], df_transformed['month'], random_state=0)
+            clf_1 = train_with_partial_fit(x_train, y_train, clf=SGDClassifier(), all_classes=df_transformed['month'].unique().compute())
 
 
 if __name__ == '__main__':
@@ -161,33 +129,16 @@ if __name__ == '__main__':
 
     # TASK 1
     task1_parser = subparsers.add_parser(Tasks.TASK_1.value)
-    task1_parser.add_argument(
-        '--dataset-path',
-        type=str,
-        default=os.path.join(
-            os.path.dirname(__file__),
-            'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv',
-        ),
-        help='Path to dataset',
-    )
-    task3_parser = subparsers.add_parser(Tasks.TASK_3.value)
-    task3_parser.add_argument(
-        '--dataset-path',
-        type=str,
-        default=os.path.join(
-            os.path.dirname(__file__),
-            'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv',
-        ),
-        help='Path to dataset',
-    )
-    task3_parser.add_argument('--dataset-path', type=str,
-                              default=os.path.join(os.path.dirname(__file__), 'data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv'),
+
+    task1_parser.add_argument('--dataset-path', type=str,
                               default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
                               help='Path to dataset')
+
     task1_parser.add_argument("--plot-dir-path", type=str, default='.', help='path to folder in which to save plots')
 
     # TASK 2
     task2_parser = subparsers.add_parser(Tasks.TASK_2.value)
+
     task2_parser.add_argument('--dataset-path', type=str,
                               default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
                               help='Path to dataset')
@@ -202,12 +153,20 @@ if __name__ == '__main__':
                               choices=[e.value for e in OutputFormat],
                               help='Path to dataset')
 
+    # TASK 3
+    task3_parser = subparsers.add_parser(Tasks.TASK_3.value)
+
+    task3_parser.add_argument('--dataset-path', type=str,
+                              default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
+                              help='Path to dataset')
+
     # TASK 5
     task5_parser = subparsers.add_parser(Tasks.TASK_5.value)
 
     task5_parser.add_argument('--dataset-path', type=str,
                               default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
                               help='Path to dataset')
+
     task5_parser.add_argument('--ml-task', type=str, default=MLTask.VIOLATIONS_FOR_DAY.value, help='ML task to run')
 
     args = parser.parse_args()
