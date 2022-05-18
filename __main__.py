@@ -10,7 +10,7 @@ from ny_parking_violations_analysis import BASE_DATASET_DEFAULT_PATH, DATASET_AV
 from ny_parking_violations_analysis import SCHEMA_FOR_AVRO
 from ny_parking_violations_analysis import Tasks, OutputFormat, MLTask
 from ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
-from ny_parking_violations_analysis.data_augmentation import PATH_TO_AUGMENTED_DATASET_CSV, DataAugEnum
+from ny_parking_violations_analysis.data_augmentation import PATH_TO_AUGMENTED_DATASET_CSV, DataAugEnum, PATH_TO_AUGMENTED_DATASET_PARQUET
 from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
 from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
 from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
@@ -41,7 +41,7 @@ def main(**kwargs):
         # compute and save augmented dataset
         augmented_dataset = get_augmented_dataset(kwargs['dataset_path'], data_augmentations=kwargs['augmentations'])
         if kwargs['output_format'] == OutputFormat.PARQUET.value:
-            augmented_dataset.to_parquet(PATH_TO_AUGMENTED_DATASET_CSV)
+            augmented_dataset.to_parquet(PATH_TO_AUGMENTED_DATASET_PARQUET)
         elif kwargs['output_format'] == OutputFormat.CSV.value:
             augmented_dataset.to_csv(PATH_TO_AUGMENTED_DATASET_CSV, single_file=True)
         else:
