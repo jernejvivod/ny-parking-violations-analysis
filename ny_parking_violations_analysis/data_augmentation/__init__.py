@@ -22,5 +22,5 @@ PATH_TO_CACHED_EVENTS = os.path.join(os.path.dirname(__file__), 'cached/events_d
 PATH_TO_CACHED_CONCERTS = os.path.join(os.path.dirname(__file__), 'cached/concerts_df.pkl')
 PATH_TO_CACHED_GEOCODED_CONCERTS = os.path.join(os.path.dirname(__file__), 'cached/concerts_geocoded_df.pkl')
 
-PATH_TO_AUGMENTED_DATASET_CSV = os.path.join(os.path.dirname(__file__), '../../data/dataset_augmented.csv')
-PATH_TO_AUGMENTED_DATASET_PARQUET = os.path.join(os.path.dirname(__file__), '../../data/dataset_augmented.csv')  # TODO
+PATH_TO_AUGMENTED_DATASET_CSV = os.path.join(os.path.dirname(__file__), '../../data/augmented/csv/dataset_augmented.csv')
+PATH_TO_AUGMENTED_DATASET_PARQUET = os.path.join(os.path.dirname(__file__), '../../data/augmented/parquet/')
