@@ -130,6 +130,15 @@ def read_base_dataset(base_dataset_path: str, parse_date=True) -> dd:
     return df
 
 
+def read_parquet(dir_path: str) -> dd:
+    if not os.path.isdir(dir_path):
+        raise ValueError('path must specify a directory containing the files in Parquet format')
+
+    df = dd.read_parquet(dir_path)
+    df['Issue Date'] = dd.to_datetime(df['Issue Date'])
+    return df
+
+
 def get_base_dataset_columns():
     return read_base_dataset(BASE_DATASET_DEFAULT_PATH).columns
 

@@ -1,18 +1,19 @@
+from datetime import datetime
+
 import dask.dataframe as dd
 import matplotlib.pyplot as plt
 import pandas as pd
-from datetime import datetime
 
 
 def groupby_count(df: dd.DataFrame, col: str, amt: int = 10) -> dd.DataFrame:
     return (
         df.groupby(col)
-        .agg({'Summons Number': 'count'})
-        .compute()
-        .sort_values('Summons Number', ascending=False)
-        .reset_index(level=0)
-        .rename(columns={'Summons Number': 'Ticket Count'})
-        .head(amt)
+            .agg({'Summons Number': 'count'})
+            .compute()
+            .sort_values('Summons Number', ascending=False)
+            .reset_index(level=0)
+            .rename(columns={'Summons Number': 'Ticket Count'})
+            .head(amt)
     )
 
 
