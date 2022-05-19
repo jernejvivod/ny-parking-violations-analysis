@@ -9,6 +9,8 @@ DATASET_PARQUET_PATH = os.path.join(os.path.dirname(__file__), '../data/parquet/
 DATASET_HDF_PATH = os.path.join(os.path.dirname(__file__), '../data/hdf/output-*.hdf')
 DATASET_HDF_KEY = '/data'
 
+DATASET_AUGMENTED_PARQUET_PATH = os.path.join(os.path.dirname(__file__), '../data/augmented/parquet/')
+
 
 class Tasks(Enum):
     TASK_1 = 'task-1'
