@@ -53,7 +53,9 @@ def join_with(df: dd) -> dd:
     num_concerts_on_date = num_concerts_on_date[num_concerts_on_date['Issue Date'] != datetime.min]
     num_concerts_on_date['Issue Date'] = pd.to_datetime(num_concerts_on_date['Issue Date'])
 
-    return dd.merge(df, num_concerts_on_date, on='Issue Date', how='left')
+    df_merged = dd.merge(df, num_concerts_on_date, on='Issue Date', how='left')
+    df_merged['num_concerts'] = df_merged['num_concerts'].fillna(0)
+    return df_merged
 
 
 def parse_concerts(year_limit):

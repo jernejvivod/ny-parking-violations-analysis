@@ -31,4 +31,4 @@ def join_with(df: dd, street_coordinates: dict) -> dd:
         closest_school_dists = pd.DataFrame(street_and_closest_school, columns=['Street Name', 'nearest_school_dist', 'nearest_school_name'])
         closest_school_dists.to_pickle(PATH_TO_CACHED_SCHOOL_DISTS)
 
-    return dd.merge(df, closest_school_dists, on='Street Name')
+    return dd.merge(df, closest_school_dists, on='Street Name', how='left')

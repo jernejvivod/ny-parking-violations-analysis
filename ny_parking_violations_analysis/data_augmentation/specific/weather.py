@@ -15,4 +15,4 @@ def join_with(df: dd) -> dd:
     df_weather = pd.read_csv(os.path.join(os.path.dirname(__file__), 'data/nyc_weather_2021_2022.csv'), delimiter=',')
     df_weather['datetime'] = pd.to_datetime(df_weather['datetime'])
 
-    return dd.merge(df, df_weather.rename(columns={'datetime': 'Issue Date'}), on='Issue Date', how='inner')
+    return dd.merge(df, df_weather.rename(columns={'datetime': 'Issue Date'}), on='Issue Date', how='left')
