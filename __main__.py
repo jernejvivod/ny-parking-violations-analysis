@@ -6,15 +6,7 @@ import matplotlib.pyplot as plt
 from dask_ml.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 
-from ny_parking_violations_analysis import (
-    DATASET_AVRO_PATH, SCHEMA_FOR_AVRO,
-    DATASET_PARQUET_PATH,
-    DATASET_HDF_PATH,
-    DATASET_HDF_KEY,
-    BASE_DATASET_DEFAULT_PATH,
-    DATASET_AUGMENTED_PARQUET_PATH,
-    read_parquet
-)
+from ny_parking_violations_analysis import DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, BASE_DATASET_DEFAULT_PATH, read_parquet
 from ny_parking_violations_analysis import OutputFormat
 from ny_parking_violations_analysis import Tasks, MLTask
 from ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
@@ -164,14 +156,14 @@ if __name__ == '__main__':
     task3_parser = subparsers.add_parser(Tasks.TASK_3.value)
 
     task3_parser.add_argument('--dataset-path', type=str,
-                              default=os.path.join(os.path.dirname(__file__), DATASET_AUGMENTED_PARQUET_PATH),
+                              default=os.path.join(os.path.dirname(__file__), PATH_TO_AUGMENTED_DATASET_PARQUET),
                               help='Path to dataset in Parquet format')
 
     # TASK 5
     task5_parser = subparsers.add_parser(Tasks.TASK_5.value)
 
     task5_parser.add_argument('--dataset-path', type=str,
-                              default=os.path.join(os.path.dirname(__file__), DATASET_AUGMENTED_PARQUET_PATH),
+                              default=os.path.join(os.path.dirname(__file__), PATH_TO_AUGMENTED_DATASET_PARQUET),
                               help='Path to dataset in Parquet format')
 
     task5_parser.add_argument('--ml-task', type=str, default=MLTask.VIOLATIONS_FOR_DAY.value, help='ML task to run')

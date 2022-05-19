@@ -41,7 +41,7 @@ def join_with(df: dd, street_coordinates: dict) -> dd:
         closest_attractions_dists = pd.DataFrame(street_and_closest_attraction, columns=['Street Name', 'nearest_attraction_dist', 'nearest_attraction_name'])
         closest_attractions_dists.to_pickle(PATH_TO_CACHED_ATTRACTIONS_DISTS)
 
-    return dd.merge(df, closest_attractions_dists, on='Street Name')
+    return dd.merge(df, closest_attractions_dists, on='Street Name', how='left')
 
 
 def parse_attractions() -> pd.DataFrame:
