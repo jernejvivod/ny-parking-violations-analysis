@@ -1,4 +1,5 @@
 import argparse
+from enum import Enum
 import glob
 import os
 
@@ -14,6 +15,7 @@ from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_T
 from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
 from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
 from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
+from ny_parking_violations_analysis.rolling_aggregates.streaming import stream
 from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
 from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 
@@ -107,7 +109,16 @@ def main(**kwargs):
 
     # TASK 4 (TODO)
     elif kwargs['task'] == Tasks.TASK_4.value:
-        pass
+
+        class Columns(Enum):
+            DATE = 4
+            # BOROUGH = ? TODO
+            # STREET = ? TODO
+
+        date_stats = stream(Columns.DATE)
+        # boroughs_stats = stream(Columns.BOROUGH)
+        # street_stats = stream(Columns.STREET)
+
 
     # TASK 5
     elif kwargs['task'] == Tasks.TASK_5.value:
@@ -158,6 +169,13 @@ if __name__ == '__main__':
     task3_parser.add_argument('--dataset-path', type=str,
                               default=os.path.join(os.path.dirname(__file__), DATASET_PARQUET_PATH),
                               help='Path to dataset in Parquet format')
+
+    # TASK 4
+    task4_parser = subparsers.add_parser(Tasks.TASK_4.value)
+
+    task4_parser.add_argument('--dataset-path', type=str,
+                              default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
+                              help='Path to dataset')
 
     # TASK 5
     task5_parser = subparsers.add_parser(Tasks.TASK_5.value)
