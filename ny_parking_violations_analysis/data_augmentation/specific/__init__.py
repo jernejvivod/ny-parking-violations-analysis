@@ -1,3 +1,4 @@
+import logging
 import re
 import time
 
@@ -6,6 +7,12 @@ import numpy as np
 import pandas as pd
 import requests
 from geopy import distance
+
+# module logger
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 WEBSITE_BUSINESSES_PATH = 'https://www.newyorkupstate.com/news/erry-2018/06/fd8d4b2ff06757/new_yorks_100_largest_companie.html'
 WEBSITE_ATTRACTIONS_PATH = 'https://tourscanner.com/blog/best-tourist-attractions-in-new-york-city/'

@@ -13,6 +13,7 @@ from ny_parking_violations_analysis.data_augmentation.specific import WEBSITE_AT
 from ny_parking_violations_analysis.data_augmentation.specific import get_dist_closest
 from ny_parking_violations_analysis.data_augmentation.specific import name_to_coordinates
 
+from . import logger
 
 def join_with(df: dd, street_coordinates: dict) -> dd:
     """Join dataframe representing the main dataset with the dataframe containing the distance to the closest major
@@ -25,8 +26,12 @@ def join_with(df: dd, street_coordinates: dict) -> dd:
 
     # parse cached DataFrame for attractions if exists, else compute new and cache
     if os.path.exists(PATH_TO_CACHED_ATTRACTIONS):
+        logger.info('Cached distances to nearest attractions exist')
+
         df_attractions = pd.read_pickle(PATH_TO_CACHED_ATTRACTIONS)
     else:
+        logger.info('Computing distances to nearest attractions exist')
+
         df_attractions = parse_attractions()
         df_attractions.to_pickle(PATH_TO_CACHED_ATTRACTIONS)
 

@@ -14,6 +14,7 @@ from ny_parking_violations_analysis import get_google_api_key
 from ny_parking_violations_analysis import read_base_dataset
 from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_CACHED_UNIQUE_STREETS, PATH_TO_CACHED_STREET_COORDINATES, PATH_TO_CHKPT_STREET_COORDINATES_GEOCODING
 from ny_parking_violations_analysis.data_augmentation.specific import get_unique_streets, name_to_coordinates
+from . import logger
 
 
 def get_augmented_dataset(base_dataset_path: str, data_augmentations: Iterable = tuple(e.value for e in DataAugEnum), geoencoding_chkpt_every: int = 100) -> dd:
@@ -38,14 +39,23 @@ def get_augmented_dataset(base_dataset_path: str, data_augmentations: Iterable =
 
         # parse cached mapping if exists, else compute new and cache
         if os.path.exists(PATH_TO_CACHED_STREET_COORDINATES):
+            logger.info('Cached geocoded unique streets exist')
+
             with open(PATH_TO_CACHED_STREET_COORDINATES, 'rb') as f:
                 street_coordinates = pkl.load(f)
         else:
+
+            logger.info('Computing geocoding of unique streets')
+
             # parse cached list of unique streets if it exists, else compute new and cache
             if os.path.exists(PATH_TO_CACHED_UNIQUE_STREETS):
+                logger.info('Cached unique streets exist')
+
                 with open(PATH_TO_CACHED_UNIQUE_STREETS, 'rb') as f:
                     unique_streets = pkl.load(f)
             else:
+                logger.info('Computing unique streets')
+
                 unique_streets = get_unique_streets(df)
                 with open(PATH_TO_CACHED_UNIQUE_STREETS, 'wb') as f:
                     pkl.dump(unique_streets, f)
@@ -64,6 +74,7 @@ def get_augmented_dataset(base_dataset_path: str, data_augmentations: Iterable =
                 start_idx = 0
 
             # get geoencodings for streets and save checkpoint each specified number of iterations
+            logger.info('Geocoding unique streets')
             for idx, street in enumerate(tqdm.tqdm(unique_streets_sorted[start_idx:], desc='Performing geocoding using the Google Maps API', unit='address')):
                 if isinstance(street, str):
                     street_coordinates[street] = name_to_coordinates(street, 'NY', google_api_key)
@@ -89,17 +100,22 @@ def add_augmentations(df: dd, data_augmentations: Iterable, street_coordinates: 
     # data augmentation implementations
     if DataAugEnum.WEATHER.value in data_augmentations:
         # WEATHER
+        logger.info('Adding weather data')
         df = weather.join_with(df)
     if DataAugEnum.SCHOOLS.value in data_augmentations:
         # SCHOOLS
+        logger.info('Adding schools data')
         df = schools.join_with(df, street_coordinates)
     if DataAugEnum.EVENTS.value in data_augmentations:
         # EVENTS
+        logger.info('Adding events data')
         df = events.join_with(df)
     if DataAugEnum.BUSINESSES.value in data_augmentations:
         # BUSINESSES
+        logger.info('Adding businesses data')
         df = businesses.join_with(df, street_coordinates)
     if DataAugEnum.ATTRACTIONS.value in data_augmentations:
         # ATTRACTIONS
+        logger.info('Adding attractions data')
         df = attractions.join_with(df, street_coordinates)
     return df
