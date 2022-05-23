@@ -2,8 +2,9 @@ import os
 from enum import Enum
 
 import dask.dataframe as dd
+import pandas as pd
 
-BASE_DATASET_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../data/Parking_Violations_Issued_-_Fiscal_Year_2022_trunc.csv')
+BASE_DATASET_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv')
 DATASET_AVRO_PATH = os.path.join(os.path.dirname(__file__), '../data/avro/dataset.*.avro')
 DATASET_PARQUET_PATH = os.path.join(os.path.dirname(__file__), '../data/parquet/')
 DATASET_HDF_PATH = os.path.join(os.path.dirname(__file__), '../data/hdf/output-*.hdf')
@@ -124,7 +125,7 @@ def read_base_dataset(base_dataset_path: str, parse_date=True) -> dd:
                          'Hydrant Violation': str,
                          'Double Parking Violation': str,
                      },
-                     blocksize='512MB',
+                     blocksize='256MB',
                      assume_missing=True)
     if parse_date:
         df['Issue Date'] = dd.to_datetime(df['Issue Date'])
@@ -151,3 +152,57 @@ def get_env_data_as_dict(path: str) -> dict:
 
 def get_google_api_key():
     return get_env_data_as_dict(os.path.join(os.path.dirname(__file__), '../.env'))['GOOGLE_API_KEY']
+
+
+COLUMNS_DROP_TASK5_GROUPED_BY_DAY = list(get_base_dataset_columns()) + [
+    "name",
+    "description",
+    "severerisk",
+    "sunrise",
+    "sunset",
+    "stations",
+    "nearest_school_name",
+    "nearest_business_name",
+    "nearest_attraction_name"
+]
+
+COLUMNS_DROP_TASK5_CAR_MAKE = [
+    'Summons Number',
+    'Plate ID',
+    'Issue Date',
+    'Issuing Agency',
+    'Street Code1',
+    'Street Code2',
+    'Street Code3',
+    'Vehicle Expiration Date',
+    'Violation Location',
+    'Violation Precinct',
+    'Issuer Precinct',
+    'Issuer Code',
+    'Issuer Command',
+    'Issuer Squad',
+    'Violation Time',
+    'Time First Observed',
+    'House Number',
+    'Street Name',
+    'Intersecting Street',
+    'Date First Observed',
+    'Law Section',
+    'Sub Division',
+    'Violation Post Code',
+    'Violation Description',
+    'name',
+    'description',
+    'severerisk',
+    'sunrise',
+    'sunset',
+    'stations',
+    'nearest_school_name',
+    'nearest_business_name',
+    'nearest_attraction_name'
+]
+
+
+def is_county_code_valid(county: str):
+    valid_county_codes = pd.read_csv(os.path.join(os.path.dirname(__file__), '../data/valid_county_codes.csv'), header=None)
+    return county in set(valid_county_codes.iloc[:, 0])
