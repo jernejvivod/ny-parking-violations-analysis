@@ -6,6 +6,8 @@ import numpy as np
 from dask_ml.impute import SimpleImputer
 from dask_ml.preprocessing import DummyEncoder, RobustScaler, LabelEncoder
 
+from . import logger
+
 
 def transform_for_training_violation(df: dd, columns_to_drop: Iterable[str]):
     """Transform dataset for per-violation ML tasks.
@@ -14,6 +16,8 @@ def transform_for_training_violation(df: dd, columns_to_drop: Iterable[str]):
     :param columns_to_drop: columns to drop
     :return: processed dataset (samples and labels)
     """
+
+    logger.info('Transforming dataset for solving \'by violation\' classification tasks')
 
     # process dataset
     df = df[df['Vehicle Make'].notnull()]
@@ -32,6 +36,8 @@ def transform_for_training_day(df: dd, columns_to_drop: Iterable[str], days_back
     :param days_back_violations: how many columns specifying the number of violations in the previous k days to add
     :return: processed dataset (samples and labels)
     """
+
+    logger.info('Transforming dataset for solving \'by day\' classification tasks')
 
     df_grouped = df.drop(list(filter(lambda x: x != 'Issue Date', columns_to_drop)), axis=1).groupby('Issue Date').first().reset_index()
     df_grouped['month'] = df_grouped['Issue Date'].map(lambda x: x.month)

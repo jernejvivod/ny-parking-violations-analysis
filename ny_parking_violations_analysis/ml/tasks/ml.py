@@ -21,6 +21,7 @@ from ny_parking_violations_analysis.ml.ml_pipeline import (
     train_with_dummy_reg
 )
 from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day, transform_for_training_violation
+from . import logger
 
 
 def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path: str):
@@ -43,19 +44,28 @@ def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path
 
     if reg_or_clf == 'reg':
         # run task 1 regression problem
+        logger.info('Solving regression problem for number of violations task')
 
         x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, train_size=0.8, shuffle=True, random_state=0)
 
         if alg == 'partial_fit':
+            logger.info('using \'partial_fit\' methodology')
+
             reg_partial_fit = train_with_partial_fit_reg(x_train, y_train, reg=SGDRegressor())
             get_regression_metrics(y_test, reg_partial_fit.predict(x_test), res_path, 'reg_partial_fit_rm_1')
         elif alg == 'dask_ml':
+            logger.info('using \'dask_ml\' methodology')
+
             reg_dask_ml = train_with_dask_ml_reg(x_train, y_train, reg=LinearRegression())
             get_regression_metrics(y_test, reg_dask_ml.predict(x_test.values.compute_chunk_sizes()), res_path, 'reg_dask_ml_rm_1')
         elif alg == 'xgb':
+            logger.info('using \'xgb\' methodology')
+
             reg_xgb = train_with_xgb(x_train, y_train, reg_or_clf='reg')
             get_regression_metrics(y_test, reg_xgb.predict(x_test), res_path, 'reg_xgb_rm_1')
         elif alg == 'dummy':
+            logger.info('using \'dummy\' methodology')
+
             reg_dummy = train_with_dummy_reg(x_train, y_train)
             get_regression_metrics(y_test, reg_dummy.predict(x_test), res_path, 'reg_dummy_rm_1')
         else:
@@ -63,6 +73,7 @@ def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path
 
     elif reg_or_clf == 'clf':
         # run task 2 classification problem
+        logger.info('Solving classification problem for number of violations task')
 
         _CLF_LABEL_DISPLAY_NAMES = ['below average', 'above average']
         _CLF_LABELS = [False, True]
@@ -71,6 +82,8 @@ def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path
         x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, train_size=0.8, shuffle=True, random_state=0)
 
         if alg == 'partial_fit':
+            logger.info('using \'partial_fit\' methodology')
+
             clf_partial_fit = train_with_partial_fit_clf(x_train, y_train, clf=SGDClassifier(loss='modified_huber'), all_classes=list(df_y.unique().compute()))
             predictions = clf_partial_fit.predict(x_test)
 
@@ -79,6 +92,8 @@ def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path
             cr_partial_fit = metrics.classification_report(y_test, clf_partial_fit.predict(x_test))
             cr.write_classification_report(cr_partial_fit, res_path, 'clf_partial_fit_cr_1')
         elif alg == 'dask_ml':
+            logger.info('using \'dask_ml\' methodology')
+
             clf_dask_ml = train_with_dask_ml_clf(x_train, y_train, clf=LogisticRegression())
             predictions = clf_dask_ml.predict(x_test.values.compute_chunk_sizes())
 
@@ -87,6 +102,8 @@ def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path
             cr_dask_ml = metrics.classification_report(y_test, predictions)
             cr.write_classification_report(cr_dask_ml, res_path, 'clf_xgb_cr_1')
         elif alg == 'xgb':
+            logger.info('using \'xgb\' methodology')
+
             clf_xgb = train_with_xgb(x_train, y_train, reg_or_clf='clf_binary')
             predictions = clf_xgb.predict(x_test)
 
@@ -95,6 +112,8 @@ def evaluate_violations_for_day(dataset: dd, reg_or_clf: str, alg: str, res_path
             cr_xgb = metrics.classification_report(y_test, predictions)
             cr.write_classification_report(cr_xgb, res_path, 'clf_xgb_cr_1')
         elif alg == 'dummy':
+            logger.info('using \'dummy\' methodology')
+
             clf_dummy = train_with_dummy_clf(x_train, y_train)
             predictions = clf_dummy.predict(x_test)
 
@@ -114,6 +133,8 @@ def evaluate_car_make(dataset: dd, alg: str, res_path: str):
     :param res_path: path to directory in which to store the results
     """
 
+    logger.info('Solving vehicle make prediction task')
+
     if not os.path.isdir(res_path):
         raise ValueError('res_path must specify a directory')
 
@@ -124,14 +145,17 @@ def evaluate_car_make(dataset: dd, alg: str, res_path: str):
 
     x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, convert_mixed_types=True, train_size=0.8, shuffle=True, random_state=0)
     if alg == 'partial_fit':
+        logger.info('using \'partial_fit\' methodology')
         clf_partial_fit = train_with_partial_fit_clf(x_train, y_train, clf=SGDClassifier(loss='modified_huber'), all_classes=unique_car_makes)
         cr_partial_fit = metrics.classification_report(y_test, clf_partial_fit.predict(x_test))
         cr.write_classification_report(cr_partial_fit, res_path, 'clf_partial_fit_cr_2')
     elif alg == 'xgb':
+        logger.info('using \'xgb\' methodology')
         clf_xgb = train_with_xgb(x_train, y_train, reg_or_clf='clf_multi', num_class=unique_car_makes.size)
         cr_xgb = metrics.classification_report(y_test, clf_xgb.predict(x_test))
         cr.write_classification_report(cr_xgb, res_path, 'clf_xgb_cr_2')
     elif alg == 'dummy':
+        logger.info('using \'dummy\' methodology')
         clf_dummy = train_with_dummy_clf(x_train, y_train)
         cr_dummy = metrics.classification_report(y_test, clf_dummy.predict(x_test))
         cr.write_classification_report(cr_dummy, res_path, 'clf_dummy_cr_2')

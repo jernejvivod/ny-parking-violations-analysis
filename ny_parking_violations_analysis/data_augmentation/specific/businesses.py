@@ -12,6 +12,7 @@ from ny_parking_violations_analysis.data_augmentation import PATH_TO_CACHED_BUSI
 from ny_parking_violations_analysis.data_augmentation.specific import WEBSITE_BUSINESSES_PATH
 from ny_parking_violations_analysis.data_augmentation.specific import get_dist_closest
 from ny_parking_violations_analysis.data_augmentation.specific import name_to_coordinates
+from . import logger
 
 
 def join_with(df: dd, street_coordinates: dict) -> dd:
@@ -25,8 +26,12 @@ def join_with(df: dd, street_coordinates: dict) -> dd:
 
     # parse cached DataFrame for businesses if exists, else compute new and cache
     if os.path.exists(PATH_TO_CACHED_BUSINESSES):
+        logger.info('Cached distances to nearest major businesses exist')
+
         df_businesses = pd.read_pickle(PATH_TO_CACHED_BUSINESSES)
     else:
+        logger.info('Computing distances to nearest major businesses')
+
         df_businesses = parse_businesses()
         df_businesses.to_pickle(PATH_TO_CACHED_BUSINESSES)
 

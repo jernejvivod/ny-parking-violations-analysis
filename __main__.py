@@ -1,5 +1,6 @@
 import argparse
 import glob
+import logging
 import os
 
 import matplotlib.pyplot as plt
@@ -14,6 +15,12 @@ from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby
 from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
 from ny_parking_violations_analysis.ml.tasks.ml import evaluate_violations_for_day, evaluate_car_make
 
+# logger
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 
 def main(**kwargs):
     """The main function that orchestrates the implemented functionality based on the command-line parameters.
@@ -23,6 +30,8 @@ def main(**kwargs):
 
     # TASK 1
     if kwargs['task'] == Tasks.TASK_1.value:
+
+        logger.info('Running task 1 (data format comparison)')
 
         # read base dataset and save in different format (if the files do not yet exist)
         df = read_base_dataset(kwargs['dataset_path'], parse_date=False)
@@ -50,17 +59,23 @@ def main(**kwargs):
     # TASK 2
     elif kwargs['task'] == Tasks.TASK_2.value:
 
+        logger.info('Running task 2 (base dataset augmentation)')
+
         # compute and save augmented dataset
         augmented_dataset = get_augmented_dataset(kwargs['dataset_path'], data_augmentations=kwargs['augmentations'])
         if kwargs['output_format'] == OutputFormat.PARQUET.value:
+            logger.info('Saving augmented dataset in Parquet format to {0}'.format(PATH_TO_AUGMENTED_DATASET_PARQUET))
             augmented_dataset.to_parquet(PATH_TO_AUGMENTED_DATASET_PARQUET)
         elif kwargs['output_format'] == OutputFormat.CSV.value:
+            logger.info('Saving augmented dataset in CSV format to {0}'.format(PATH_TO_AUGMENTED_DATASET_CSV))
             augmented_dataset.to_csv(PATH_TO_AUGMENTED_DATASET_CSV, single_file=True)
         else:
             raise NotImplementedError('output format \'{0}\' not recognized')
 
     # TASK 3
     elif kwargs['task'] == Tasks.TASK_3.value:
+
+        logger.info('Running task 2 (exploratory data analysis)')
 
         # parse dataset
         df = read_parquet(kwargs['dataset_path'])
@@ -115,13 +130,19 @@ def main(**kwargs):
 
     # TASK 4 (TODO)
     elif kwargs['task'] == Tasks.TASK_4.value:
-        pass
+
+        logger.info('Running task 4 (stream-based data analysis)')
 
     # TASK 5
     elif kwargs['task'] == Tasks.TASK_5.value:
 
+        logger.info('Running task 5 (machine learning)')
+
         # parse (augmented) dataset
         dataset = read_parquet(kwargs['dataset_path'])
+
+        if not os.path.isdir(kwargs['res_path']):
+            raise ValueError('{0} is not a directory'.format(kwargs['res_path']))
 
         # filter by county if applicable
         if kwargs['county_filter'] != 'ALL':

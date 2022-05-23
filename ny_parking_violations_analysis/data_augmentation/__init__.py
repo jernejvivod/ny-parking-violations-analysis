@@ -1,5 +1,12 @@
+import logging
 import os
 from enum import Enum
+
+# module logger
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class DataAugEnum(Enum):
