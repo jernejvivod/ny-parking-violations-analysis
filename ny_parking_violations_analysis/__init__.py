@@ -174,7 +174,7 @@ COLUMNS_DROP_TASK5_GROUPED_BY_DAY = [
     'Issuer Code',
     'Issuer Command',
     'Issuer Squad',
-    'Violation Time'
+    'Violation Time',
     'Time First Observed',
     'Violation County',
     'Violation In Front Of Or Opposite',
@@ -183,7 +183,7 @@ COLUMNS_DROP_TASK5_GROUPED_BY_DAY = [
     'Intersecting Street',
     'Date First Observed',
     'Law Section',
-    'Sub Division'
+    'Sub Division',
     'Violation Legal Code',
     'Days Parking In Effect    ',
     'From Hours In Effect',
@@ -197,7 +197,7 @@ COLUMNS_DROP_TASK5_GROUPED_BY_DAY = [
     'Violation Description',
     'No Standing or Stopping Violation',
     'Hydrant Violation',
-    'Double Parking Violation'
+    'Double Parking Violation',
     "name",
     "description",
     "severerisk",
@@ -206,7 +206,7 @@ COLUMNS_DROP_TASK5_GROUPED_BY_DAY = [
     "stations",
     "nearest_school_name",
     "nearest_business_name",
-    "nearest_attraction_name"
+    "nearest_attraction_name",
 ]
 
 COLUMNS_DROP_TASK5_CAR_MAKE = [
