@@ -2,8 +2,13 @@ import argparse
 import glob
 import logging
 import os
+import warnings
+from contextlib import suppress
+from typing import Union
 
+import dask_jobqueue
 import matplotlib.pyplot as plt
+from distributed import Client
 
 from ny_parking_violations_analysis import DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, BASE_DATASET_DEFAULT_PATH, read_parquet, is_county_code_valid
 from ny_parking_violations_analysis import OutputFormat
@@ -14,6 +19,8 @@ from ny_parking_violations_analysis.data_augmentation.augment import get_augment
 from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
 from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
 from ny_parking_violations_analysis.ml.tasks.ml import evaluate_violations_for_day, evaluate_car_make
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # logger
 
@@ -27,6 +34,15 @@ def main(**kwargs):
 
     See the readme in the project root folder for instructions on how to run.
     """
+
+    if kwargs['use_slurm_cluster']:
+        init_cluster(
+            kwargs['queue'],
+            kwargs['processes'],
+            kwargs['cores'],
+            kwargs['memory'],
+            kwargs['death_timeout'],
+        )
 
     # TASK 1
     if kwargs['task'] == Tasks.TASK_1.value:
@@ -170,8 +186,35 @@ def main(**kwargs):
         raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['task'], [v.value for v in MLTask]))
 
 
+def init_cluster(queue: str,
+                 processes: int,
+                 cores: int,
+                 memory: Union[str, int],
+                 death_timeout: int):
+    """Initialize SLURM cluster"""
+    cluster = dask_jobqueue.SLURMCluster(
+        queue=queue,
+        processes=processes,
+        cores=cores,
+        memory=memory,
+        scheduler_options={'dashboard_address': ':8087'},
+        death_timeout=death_timeout
+    )
+    client = Client(cluster, timeout="120s")
+    client.cluster.scale(16)
+    with suppress(Exception):
+        client.shutdown()
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='ny-parking-violations-analysis')
+
+    parser.add_argument('--use-slurm-cluster', action='store_true', help='Use SLURM cluster')
+    parser.add_argument('--queue', type=str, default='all', help='Destination queue for each worker job. Passed to #SBATCH -p option.')
+    parser.add_argument('--processes', type=int, default=2, help='Cut the job up into this many processes.')
+    parser.add_argument('--cores', type=int, default=16, help='Total number of cores per job')
+    parser.add_argument('--memory', default='16GB', help='Total amount of memory per job')
+    parser.add_argument('--death_timeout', type=int, default=120, help='Seconds to wait for a scheduler before closing workers.')
 
     # select parser for task
     subparsers = parser.add_subparsers(required=True, dest='task', help='Task to run')
