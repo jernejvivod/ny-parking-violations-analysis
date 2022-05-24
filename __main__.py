@@ -36,13 +36,18 @@ def main(**kwargs):
     """
 
     if kwargs['use_slurm_cluster']:
-        init_cluster(
-            kwargs['queue'],
-            kwargs['processes'],
-            kwargs['cores'],
-            kwargs['memory'],
-            kwargs['death_timeout'],
+        cluster = dask_jobqueue.SLURMCluster(
+            queue=kwargs['queue'],
+            processes=kwargs['processes'],
+            cores=kwargs['cores'],
+            memory=kwargs['memory'],
+            scheduler_options={'dashboard_address': ':8087'},
+            death_timeout=kwargs['death_timeout']
         )
+        client = Client(cluster, timeout="600s")
+        client.cluster.scale(kwargs['cores'])
+        with suppress(Exception):
+            client.shutdown()
 
     # TASK 1
     if kwargs['task'] == Tasks.TASK_1.value:
