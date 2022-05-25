@@ -24,6 +24,7 @@ class Tasks(Enum):
     TASK_3 = 'task-3'
     TASK_4 = 'task-4'
     TASK_5 = 'task-5'
+    SANITY_CHECK = 'sanity-check'
 
 
 class MLTask(Enum):
