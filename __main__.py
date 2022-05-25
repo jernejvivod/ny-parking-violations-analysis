@@ -36,18 +36,13 @@ def main(**kwargs):
     """
 
     if kwargs['use_slurm_cluster']:
-        cluster = dask_jobqueue.SLURMCluster(
-            queue=kwargs['queue'],
-            processes=kwargs['processes'],
-            cores=kwargs['cores'],
-            memory=kwargs['memory'],
-            scheduler_options={'dashboard_address': ':8087'},
-            death_timeout=kwargs['death_timeout']
+        client, cluster = init_cluster(
+            kwargs['queue'],
+            kwargs['processes'],
+            kwargs['cores'],
+            kwargs['memory'],
+            kwargs['death_timeout'],
         )
-        client = Client(cluster, timeout="600s")
-        client.cluster.scale(kwargs['cores'])
-        with suppress(Exception):
-            client.shutdown()
 
     # TASK 1
     if kwargs['task'] == Tasks.TASK_1.value:
@@ -187,6 +182,16 @@ def main(**kwargs):
         else:
             raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['ml_task'], [v.value for v in MLTask]))
 
+    elif kwargs['task'] == Tasks.SANITY_CHECK.value:
+        logger.info('Running sanity check (compute a simple group-by task)')
+
+        # run sanity check computation
+        df = read_base_dataset(kwargs['dataset_path'], parse_date=True)
+        logger.info('Dataframe has {0} partition(s).'.format(df.npartitions))
+        df.groupby('Vehicle Make').size().compute()
+
+        logger.info('Computation finished')
+
     else:
         raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['task'], [v.value for v in MLTask]))
 
@@ -206,9 +211,11 @@ def init_cluster(queue: str,
         death_timeout=death_timeout
     )
     client = Client(cluster, timeout="120s")
-    client.cluster.scale(16)
+    client.cluster.scale(cores)
     with suppress(Exception):
         client.shutdown()
+
+    return client, cluster
 
 
 if __name__ == '__main__':
@@ -274,6 +281,12 @@ if __name__ == '__main__':
     task5_parser.add_argument('--res-path', type=str, default='.', help='path to folder for storing obtained results (plots and text files)')
 
     task5_parser.add_argument('--alg', type=str, default='xgb', help='algorithm to use (specified in the task instructions - \'partial_fit\', \'dask_ml\', \'xgb\' or \'dummy\')')
+
+    sanity_check_parser = subparsers.add_parser(Tasks.SANITY_CHECK.value)
+
+    sanity_check_parser.add_argument('--dataset-path', type=str,
+                                     default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
+                                     help='Path to dataset')
 
     args = parser.parse_args()
 
