@@ -2,13 +2,12 @@ import argparse
 import glob
 import logging
 import os
-import warnings
 from contextlib import suppress
-from typing import Union
 
 import dask_jobqueue
+import dask_memusage
 import matplotlib.pyplot as plt
-from distributed import Client
+from distributed import Client, LocalCluster
 
 from ny_parking_violations_analysis import DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, BASE_DATASET_DEFAULT_PATH, read_parquet, is_county_code_valid
 from ny_parking_violations_analysis import OutputFormat
@@ -19,8 +18,6 @@ from ny_parking_violations_analysis.data_augmentation.augment import get_augment
 from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
 from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
 from ny_parking_violations_analysis.ml.tasks.ml import evaluate_violations_for_day, evaluate_car_make
-
-warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # logger
 
@@ -35,14 +32,32 @@ def main(**kwargs):
     See the readme in the project root folder for instructions on how to run.
     """
 
+    if not os.path.isdir(kwargs['mem_usage_path']):
+        raise ValueError('{0} is not a directory'.format(kwargs['mem_usage_path']))
+
     if kwargs['use_slurm_cluster']:
-        client, cluster = init_cluster(
-            kwargs['queue'],
-            kwargs['processes'],
-            kwargs['cores'],
-            kwargs['memory'],
-            kwargs['death_timeout'],
+
+        cluster = dask_jobqueue.SLURMCluster(
+            queue=kwargs['queue'],
+            n_workers=kwargs['n_workers'],
+            processes=kwargs['processes'],
+            cores=kwargs['cores'],
+            memory=kwargs['memory'],
+            scheduler_options={'dashboard_address': ':8087'},
+            death_timeout=kwargs['death_timeout']
         )
+        dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
+        client = Client(cluster, timeout="240s")
+        if not kwargs['no_scale']:
+            client.cluster.scale(n=kwargs['n_workers'], jobs=kwargs['n_jobs'], cores=kwargs['cores'], memory=kwargs['memory'])
+
+    else:
+        cluster = LocalCluster()
+        client = Client()
+        dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
+
+    with suppress(Exception):
+        client.shutdown()
 
     # TASK 1
     if kwargs['task'] == Tasks.TASK_1.value:
@@ -171,16 +186,16 @@ def main(**kwargs):
         # perform evaluations for the ML tasks
         if kwargs['ml_task'] == MLTask.VIOLATIONS_FOR_DAY.value:
             if kwargs['reg_or_clf'] == 'reg':
-                evaluate_violations_for_day(dataset, reg_or_clf='reg', alg=kwargs['alg'], res_path=kwargs['res_path'])
+                evaluate_violations_for_day(client, dataset, reg_or_clf='reg', alg=kwargs['alg'], res_path=kwargs['res_path'])
             elif kwargs['reg_or_clf'] == 'clf':
-                evaluate_violations_for_day(dataset, reg_or_clf='clf', alg=kwargs['alg'], res_path=kwargs['res_path'])
+                evaluate_violations_for_day(client, dataset, reg_or_clf='clf', alg=kwargs['alg'], res_path=kwargs['res_path'])
             else:
                 raise NotImplementedError('only \'reg\' or \'clf\' options are supported.')
 
         elif kwargs['ml_task'] == MLTask.CAR_MAKE.value:
-            evaluate_car_make(dataset, alg=kwargs['alg'], res_path='.')
+            evaluate_car_make(client, dataset, alg=kwargs['alg'], res_path='.')
         else:
-            raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['ml_task'], [v.value for v in MLTask]))
+            raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['ml_task'], ', '.join([v.value for v in MLTask])))
 
     elif kwargs['task'] == Tasks.SANITY_CHECK.value:
         logger.info('Running sanity check (compute a simple group-by task)')
@@ -193,29 +208,7 @@ def main(**kwargs):
         logger.info('Computation finished')
 
     else:
-        raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['task'], [v.value for v in MLTask]))
-
-
-def init_cluster(queue: str,
-                 processes: int,
-                 cores: int,
-                 memory: Union[str, int],
-                 death_timeout: int):
-    """Initialize SLURM cluster"""
-    cluster = dask_jobqueue.SLURMCluster(
-        queue=queue,
-        processes=processes,
-        cores=cores,
-        memory=memory,
-        scheduler_options={'dashboard_address': ':8087'},
-        death_timeout=death_timeout
-    )
-    client = Client(cluster, timeout="120s")
-    client.cluster.scale(cores)
-    with suppress(Exception):
-        client.shutdown()
-
-    return client, cluster
+        raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['task'], ','.join([v.value for v in MLTask])))
 
 
 if __name__ == '__main__':
@@ -223,10 +216,14 @@ if __name__ == '__main__':
 
     parser.add_argument('--use-slurm-cluster', action='store_true', help='Use SLURM cluster')
     parser.add_argument('--queue', type=str, default='all', help='Destination queue for each worker job. Passed to #SBATCH -p option.')
-    parser.add_argument('--processes', type=int, default=2, help='Cut the job up into this many processes.')
-    parser.add_argument('--cores', type=int, default=16, help='Total number of cores per job')
-    parser.add_argument('--memory', default='16GB', help='Total amount of memory per job')
-    parser.add_argument('--death_timeout', type=int, default=120, help='Seconds to wait for a scheduler before closing workers.')
+    parser.add_argument('--n_workers', type=int, default=8, help='Number of workers to start by default')
+    parser.add_argument('--processes', type=int, default=1, help='Cut the job up into this many processes')
+    parser.add_argument('--cores', type=int, default=8, help='Total number of cores per job')
+    parser.add_argument('--memory', default='64GB', help='Total amount of memory per job')
+    parser.add_argument('--death_timeout', type=int, default=120, help='Seconds to wait for a scheduler before closing workers')
+    parser.add_argument('--n-jobs', type=int, default=3, help='For how many jobs to ask')
+    parser.add_argument('--no-scale', action='store_true', help='Do not scale cluster at the start')
+    parser.add_argument('--mem-usage-path', type=str, default='.', help='Path to folder in which to save memory usage data')
 
     # select parser for task
     subparsers = parser.add_subparsers(required=True, dest='task', help='Task to run')
@@ -238,7 +235,7 @@ if __name__ == '__main__':
                               default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
                               help='Path to dataset')
 
-    task1_parser.add_argument("--plot-dir-path", type=str, default='.', help='path to folder in which to save plots')
+    task1_parser.add_argument("--plot-dir-path", type=str, default='.', help='Path to folder in which to save plots')
 
     # TASK 2
     task2_parser = subparsers.add_parser(Tasks.TASK_2.value)
