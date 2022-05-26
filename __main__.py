@@ -4,7 +4,6 @@ import logging
 import os
 from contextlib import suppress
 
-import dask_jobqueue
 import dask_memusage
 import matplotlib.pyplot as plt
 from distributed import Client, LocalCluster
@@ -35,26 +34,9 @@ def main(**kwargs):
     if not os.path.isdir(kwargs['mem_usage_path']):
         raise ValueError('{0} is not a directory'.format(kwargs['mem_usage_path']))
 
-    if kwargs['use_slurm_cluster']:
-
-        cluster = dask_jobqueue.SLURMCluster(
-            queue=kwargs['queue'],
-            n_workers=kwargs['n_workers'],
-            processes=kwargs['processes'],
-            cores=kwargs['cores'],
-            memory=kwargs['memory'],
-            scheduler_options={'dashboard_address': ':8087'},
-            death_timeout=kwargs['death_timeout']
-        )
-        dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
-        client = Client(cluster, timeout="240s")
-        if not kwargs['no_scale']:
-            client.cluster.scale(n=kwargs['n_workers'], jobs=kwargs['n_jobs'], cores=kwargs['cores'], memory=kwargs['memory'])
-
-    else:
-        cluster = LocalCluster()
-        client = Client()
-        dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
+    cluster = LocalCluster()
+    client = Client()
+    dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
 
     with suppress(Exception):
         client.shutdown()
@@ -179,7 +161,7 @@ def main(**kwargs):
         if kwargs['county_filter'] != 'ALL':
             county = kwargs['county_filter']
             if is_county_code_valid(county):
-                dataset = dataset.loc[dataset['Violation County'] == county, :].head()
+                dataset = dataset.loc[dataset['Violation County'] == county, :]
             else:
                 raise ValueError('county with code {0} not recognized'.format(county))
 
@@ -193,7 +175,7 @@ def main(**kwargs):
                 raise NotImplementedError('only \'reg\' or \'clf\' options are supported.')
 
         elif kwargs['ml_task'] == MLTask.CAR_MAKE.value:
-            evaluate_car_make(client, dataset, alg=kwargs['alg'], res_path='.')
+            evaluate_car_make(client, dataset, car_make_filter=kwargs['car_make_filter'], alg=kwargs['alg'], res_path='.')
         else:
             raise NotImplementedError('option {0} not recognized. Only options {1} are supported.'.format(kwargs['ml_task'], ', '.join([v.value for v in MLTask])))
 
@@ -274,6 +256,8 @@ if __name__ == '__main__':
     task5_parser.add_argument('--ml-task', type=str, default=MLTask.VIOLATIONS_FOR_DAY.value, help='ML task to run')
 
     task5_parser.add_argument('--reg-or-clf', type=str, default='clf', help='task to solve when evaluating the violations per day task (\'reg\' for the first task, \'clf\' for the second task')
+
+    task5_parser.add_argument('--car-make-filter', nargs='+', type=str, default=['BMW', 'ME/BE'], help='task to solve when evaluating the violations per day task (\'reg\' for the first task, \'clf\' for the second task')
 
     task5_parser.add_argument('--res-path', type=str, default='.', help='path to folder for storing obtained results (plots and text files)')
 

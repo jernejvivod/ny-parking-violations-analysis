@@ -9,10 +9,11 @@ from dask_ml.preprocessing import DummyEncoder, RobustScaler, LabelEncoder
 from . import logger
 
 
-def transform_for_training_violation(df: dd, columns_to_drop: Iterable[str]):
+def transform_for_training_violation(df: dd, car_make_filter: Iterable[str], columns_to_drop: Iterable[str]):
     """Transform dataset for per-violation ML tasks.
 
     :param df: dataset to process
+    :param car_make_filter: car makes to consider
     :param columns_to_drop: columns to drop
     :return: processed dataset (samples and labels)
     """
@@ -20,7 +21,7 @@ def transform_for_training_violation(df: dd, columns_to_drop: Iterable[str]):
     logger.info('Transforming dataset for solving \'by violation\' classification tasks')
 
     # process dataset
-    df = df[df['Vehicle Make'].notnull()]
+    df = df[df['Vehicle Make'].isin(car_make_filter)]
     df_x, df_y = df.loc[:, df.columns != 'Vehicle Make'], df['Vehicle Make']
     df_ohe = DummyEncoder().fit_transform(df_x.drop(columns_to_drop, axis=1).categorize())
     le = LabelEncoder()
@@ -37,7 +38,7 @@ def transform_for_training_day(df: dd, columns_to_drop: Iterable[str], days_back
     :return: processed dataset (samples and labels)
     """
 
-    logger.info('Transforming dataset for solving \'by day\' classification tasks')
+    logger.info('Transforming dataset for solving \'by day\' classification/regression tasks')
 
     df_grouped = df.drop(list(filter(lambda x: x != 'Issue Date', columns_to_drop)), axis=1).groupby('Issue Date').first().reset_index()
     df_grouped['month'] = df_grouped['Issue Date'].map(lambda x: x.month)

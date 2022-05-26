@@ -1,5 +1,6 @@
 import os
 import time
+from typing import Iterable
 
 import dask.array as da
 import dask.dataframe as dd
@@ -156,11 +157,12 @@ def evaluate_violations_for_day(client: Client, dataset: dd, reg_or_clf: str, al
         raise NotImplementedError('only \'reg\' or \'clf\' options are supported.')
 
 
-def evaluate_car_make(client: Client, dataset: dd, alg: str, res_path: str):
+def evaluate_car_make(client: Client, dataset: dd, car_make_filter: Iterable[str], alg: str, res_path: str):
     """Evaluate ML algorithms on a vehicle make prediction task.
 
     :param client: cluster client
     :param dataset: dataset to use
+    :param car_make_filter: car makes to consider
     :param alg: algorithm to use (specified in the task instructions - 'partial_fit', 'dask_ml', 'xgb' or 'dummy')
     :param res_path: path to directory in which to store the results
     """
@@ -170,7 +172,7 @@ def evaluate_car_make(client: Client, dataset: dd, alg: str, res_path: str):
     if not os.path.isdir(res_path):
         raise ValueError('res_path must specify a directory')
 
-    df_x, df_y, le = transform_for_training_violation(dataset, COLUMNS_DROP_TASK5_CAR_MAKE)
+    df_x, df_y, le = transform_for_training_violation(dataset, car_make_filter, COLUMNS_DROP_TASK5_CAR_MAKE)
 
     # get unique car makes
     unique_car_makes = da.unique(df_y).compute()
