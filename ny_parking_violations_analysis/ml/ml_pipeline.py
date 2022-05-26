@@ -4,7 +4,6 @@ import dask.dataframe
 import dask.dataframe as dd
 import numpy as np
 import xgboost as xgb
-from dask.distributed import LocalCluster, Client
 from sklearn.dummy import DummyClassifier, DummyRegressor
 
 
@@ -28,9 +27,7 @@ def train_with_dask_ml_clf(x_train: dd, y_train: dask.dataframe.Series, clf):
     return clf.fit(x_train.values, y_train.values)
 
 
-def train_with_xgb(x_train: dd, y_train: dask.dataframe.Series, reg_or_clf='reg', num_class=2):
-    cluster = LocalCluster()
-    client = Client(cluster)
+def train_with_xgb(client, x_train: dd, y_train: dask.dataframe.Series, reg_or_clf='reg', num_class=2):
     dtrain = xgb.dask.DaskDMatrix(client, x_train, y_train)
 
     if reg_or_clf == 'reg':
