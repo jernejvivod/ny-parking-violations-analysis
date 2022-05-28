@@ -1,0 +1,434 @@
+task_key,min_memory_mb,max_memory_mb
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 0)",342.578125,342.578125
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 3)",135.984375,2201.3203125
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 1)",134.859375,2902.7421875
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 4)",132.39453125,2218.8828125
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 5)",134.39453125,2353.8125
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 2)",102.38671875,2224.0
+"('dataframe-groupby-size-chunk-4b0509f0d31460c63c01ac832b631e2e-b9de5527e852e3280225c4924229b4d0', 6)",131.03515625,1970.078125
+"('dataframe-groupby-size-agg-4b0509f0d31460c63c01ac832b631e2e', 0)",215.8828125,216.0390625
+list-80821142-6bd6-4f46-8c5d-18e5ce2d48b1,109.67578125,112.421875
+"('array-7308ffe7fad194f8e423ac6c564a9774', 0)",0,0
+"('array-18a46769ae79220bbdc48e1e453bb348', 0)",112.421875,112.66015625
+"('array-1e2cbb83d4f0b827f91f3eb4e883f675', 0)",0,0
+"('array-6cd22210448a458e66bdf906e6a3013b', 0)",0,0
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 0)",225.98046875,463.46875
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 0)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 0)",0,0
+"('assign-c41783219566ea296833cb2a1414e64f', 0)",451.86328125,488.60546875
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 0)",487.01171875,487.01171875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 0)",370.47265625,473.90625
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 1)",176.4609375,1996.90625
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 1)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 1)",0,0
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 6)",216.57421875,1897.57421875
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 6)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 6)",0,0
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 3)",243.2109375,2095.55859375
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 3)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 3)",0,0
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 5)",216.0390625,2231.73046875
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 5)",0,0
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 4)",216.36328125,2032.34375
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 4)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 5)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 4)",0,0
+"('read-parquet-de6b3322c4d212ca033128d69ccf1378', 2)",222.09765625,2383.3984375
+"('getitem-418dfa4ed3f5935a351b454a42ed289c', 2)",0,0
+"('to_datetime-a72e65f92db142ac18f486a9cdb29a07', 2)",0,0
+"('assign-c41783219566ea296833cb2a1414e64f', 1)",2315.2265625,2315.2265625
+"('assign-c41783219566ea296833cb2a1414e64f', 6)",1458.796875,1458.796875
+"('assign-c41783219566ea296833cb2a1414e64f', 4)",1737.4296875,1737.4296875
+"('assign-c41783219566ea296833cb2a1414e64f', 5)",1308.0078125,1308.0078125
+"('assign-c41783219566ea296833cb2a1414e64f', 3)",2092.78125,2446.2578125
+"('assign-c41783219566ea296833cb2a1414e64f', 2)",1572.19921875,1572.19921875
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 6)",2022.2421875,2022.2421875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 6)",0,0
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 4)",0,0
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 1)",1303.703125,1303.703125
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 4)",1316.02734375,1316.02734375
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 5)",1321.11328125,1321.11328125
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 1)",604.671875,604.671875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 5)",0,0
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 3)",1326.7734375,1326.7734375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 3)",0,0
+"('drop_by_shallow_copy-a2304b71b46c5088a1a49f564b4e2095', 2)",1316.07421875,1316.07421875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 2)",608.05859375,946.421875
+"('dataframe-groupby-first-agg-c178bea3285714c2f28c0cce8ddd3ca9', 0)",272.3359375,600.43359375
+"('reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",0,0
+"('getitem-bbd890544e6a01b508e429be4a4f95dd', 0)",272.3359375,272.3359375
+"('map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('assign-973bb14c959e14ee25f0053a0fd9e306', 0)",0,0
+"('assign-973bb14c959e14ee25f0053a0fd9e306-index-1d25410cf307778f79d137abd3931303', 0)",0,0
+"('from-dask-array-2088c965d59f11041a327375b6b83a7c', 0)",112.66015625,113.2890625
+"('assign-d389867e25312b5ea0041becb0b134e7', 0)",272.3359375,272.3359375
+"('assign-d389867e25312b5ea0041becb0b134e7-index-fb886502a87fb7bb2923b9eb509215ec', 0)",0,0
+"('from-dask-array-c779a3465119bfd9a86d36be5c787607', 0)",130.4140625,130.4140625
+"('assign-3f77a21fd1de51b0f924b91ec94f19c6', 0)",272.3359375,272.3359375
+"('assign-3f77a21fd1de51b0f924b91ec94f19c6-index-494f0d2cc0fb9250f14328e0e7cf7be5', 0)",0,0
+"('from-dask-array-1ecf4dc1832bcee1871ded6a457b6a3d', 0)",130.6640625,130.6640625
+"('assign-b37d495e7d78a0d2be0e668d2a034773', 0)",272.3359375,272.3359375
+"('assign-b37d495e7d78a0d2be0e668d2a034773-index-04aebe162d31bb924405a5b2b8de453d', 0)",0,0
+"('from-dask-array-7ed94c4aa77c19e73a68a9722a738e8d', 0)",130.6640625,130.6640625
+"('assign-2483a1912a8d157ade880e67059f05f6', 0)",272.3359375,272.3359375
+"('drop_by_shallow_copy-2fd7cc4442f67b116805ade6be099143', 0)",0,0
+"('getitem-00c3bc50e51aeb42675626e00902c22e', 0)",0,0
+"('astype-b563c4b51c8be729c6a44f15becde6c7', 0)",272.3359375,272.3359375
+"('assign-8957d4ce7b8b2907cc01fab1d0ddf340', 0)",0,0
+"('getitem-ce1a7c76c10d8cf986223dbfabfec30b', 0)",0,0
+"('astype-b85472d8043d1de1db55008196a3e38d', 0)",0,0
+"('assign-2bc38d671d3491bafaea3775a6a9324c', 0)",272.3359375,272.3359375
+"('getitem-e493b5a30bfc0b493b721317dbecca51', 0)",0,0
+"('astype-61a4fe91cd22af9d7274b8ac4313cd12', 0)",0,0
+"('assign-28f9fe13795f35f58f8badea093e7724', 0)",0,0
+"('try_loc-1e5cd7efb939cb950838adaacad5258d', 0)",272.3359375,272.3359375
+"('get-categories-chunk-90e2670ae3f916c0d2337ec3f4e21eb1', 0)",0,0
+"('get-categories-agg-90e2670ae3f916c0d2337ec3f4e21eb1', 0)",0,0
+list-80821142-6bd6-4f46-8c5d-18e5ce2d48b1,278.29296875,278.29296875
+"('array-6cd22210448a458e66bdf906e6a3013b', 0)",280.10546875,938.0625
+"('array-7308ffe7fad194f8e423ac6c564a9774', 0)",314.9296875,932.05078125
+"('array-1e2cbb83d4f0b827f91f3eb4e883f675', 0)",263.21484375,953.62890625
+"('array-18a46769ae79220bbdc48e1e453bb348', 0)",272.5625,272.5625
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 0)",278.29296875,468.66796875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 4)",272.5625,2242.359375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 6)",280.10546875,2407.0
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 3)",130.6640625,2342.3515625
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 1)",314.9296875,2277.296875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 2)",263.21484375,2399.36328125
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 5)",308.69140625,2419.64453125
+"('dataframe-groupby-first-agg-reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",307.45703125,307.45703125
+"('reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",307.45703125,307.45703125
+"('getitem-map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('get_dummies-0bf37ea1b91af757dc9a754e74985701', 0)",307.45703125,307.45703125
+"('dataframe-count-chunk-dataframe-count-agg-de3b7913004dd2b490ee9d011dfa508d', 0)",0,0
+"('dataframe-sum-chunk-dataframe-sum-agg-898631712640ffe00437b621df661b85', 0)",0,0
+"('dataframe-count-agg-de3b7913004dd2b490ee9d011dfa508d', 0)",0,0
+"('dataframe-sum-agg-898631712640ffe00437b621df661b85', 0)",0,0
+"('values-e7d6428f659ccafc3d552de24a640887', 0)",307.45703125,307.45703125
+"('array-1e2cbb83d4f0b827f91f3eb4e883f675', 0)",267.98828125,267.98828125
+"('array-18a46769ae79220bbdc48e1e453bb348', 0)",248.8515625,249.109375
+"('array-6cd22210448a458e66bdf906e6a3013b', 0)",347.4375,347.4375
+list-80821142-6bd6-4f46-8c5d-18e5ce2d48b1,312.63671875,312.63671875
+"('array-7308ffe7fad194f8e423ac6c564a9774', 0)",230.62109375,356.04296875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 0)",312.63671875,491.09375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 4)",267.98828125,2383.9609375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 1)",347.4375,2821.01953125
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 6)",307.45703125,2202.80859375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 5)",305.44921875,2120.40234375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 3)",304.03515625,2822.0
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 2)",249.109375,2184.734375
+"('dataframe-groupby-first-agg-c178bea3285714c2f28c0cce8ddd3ca9', 0)",2022.234375,2022.234375
+"('reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",323.87109375,323.87109375
+"('getitem-bbd890544e6a01b508e429be4a4f95dd', 0)",0,0
+"('map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('len-0aad90a5ef9caa951e0310e28a377411', 0)",323.87109375,323.87109375
+"('array-1e2cbb83d4f0b827f91f3eb4e883f675', 0)",230.62109375,230.62109375
+"('array-7308ffe7fad194f8e423ac6c564a9774', 0)",350.671875,2072.50390625
+"('array-6cd22210448a458e66bdf906e6a3013b', 0)",270.21875,270.21875
+list-80821142-6bd6-4f46-8c5d-18e5ce2d48b1,330.703125,442.99609375
+"('array-18a46769ae79220bbdc48e1e453bb348', 0)",323.87109375,323.87109375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 0)",353.19140625,529.27734375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 1)",358.16015625,2409.0625
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 2)",270.21875,2145.171875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 6)",230.62109375,1968.19921875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 5)",350.671875,3157.69921875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 3)",323.3359375,3053.80859375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 4)",341.82421875,2270.36328125
+"('dataframe-groupby-first-agg-reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",351.90625,351.90625
+"('reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",351.90625,351.90625
+"('getitem-map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('fillna-from-value-getattr-transpose-20d8cc31264dea95eef17926d3301657', 0, 0)",352.13671875,352.13671875
+"('transpose-20d8cc31264dea95eef17926d3301657', 0, 0)",352.13671875,352.13671875
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 54, 0)",331.08203125,403.41015625
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 53, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 55, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 54, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 56, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 57, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 58, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 59, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 47, 0)",322.41015625,322.41015625
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 22, 0)",384.3984375,384.3984375
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 32, 0)",359.421875,359.421875
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 53, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 55, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 56, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 36, 0)",303.69140625,304.20703125
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 34, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 43, 0)",323.87109375,323.87109375
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 28, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 29, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 3, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 30, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 31, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 48, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 2, 0)",255.97265625,255.97265625
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 21, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 32, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 33, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 57, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 58, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 59, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 49, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 15, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 22, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 35, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 47, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 16, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 37, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 5, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 50, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 17, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 18, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 38, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 36, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 51, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 19, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 39, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 52, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 2, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 20, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 4, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 48, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 34, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 28, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 29, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 3, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 30, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 35, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 37, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 31, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 33, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 49, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 5, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 50, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 51, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 15, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 16, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 17, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 38, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 39, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 18, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 19, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 52, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 4, 0)",304.20703125,304.20703125
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 20, 0)",255.97265625,255.97265625
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 0, 0)",352.13671875,352.13671875
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 1, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 10, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 11, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 12, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 0, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 13, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 14, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 6, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 60, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 1, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 10, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 11, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 12, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 13, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 14, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 40, 0)",323.87109375,323.87109375
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 7, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 8, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 23, 0)",384.3984375,384.3984375
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 21, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 41, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 9, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 6, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 60, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 42, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 7, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 40, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 43, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 24, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 25, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 26, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 8, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 9, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 44, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 45, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 41, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 42, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 46, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 44, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 45, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 46, 0)",0,0
+"('getitem-percentile-percentile_chunk-concatenate-80db5d179e75f376f0f7f1bdd19f128c', 27, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 23, 0)",384.3984375,384.3984375
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 24, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 25, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 26, 0)",0,0
+"('concatenate-80db5d179e75f376f0f7f1bdd19f128c', 27, 0)",0,0
+"('array-7308ffe7fad194f8e423ac6c564a9774', 0)",323.87109375,323.87109375
+"('array-18a46769ae79220bbdc48e1e453bb348', 0)",255.97265625,256.22265625
+"('array-6cd22210448a458e66bdf906e6a3013b', 0)",304.20703125,304.20703125
+"('array-1e2cbb83d4f0b827f91f3eb4e883f675', 0)",331.08203125,331.08203125
+list-80821142-6bd6-4f46-8c5d-18e5ce2d48b1,384.3984375,384.3984375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 0)",406.15625,548.97265625
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 2)",359.671875,2794.8671875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 3)",322.41015625,2036.76953125
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 6)",352.13671875,2266.01171875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 1)",304.20703125,2731.30859375
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 4)",323.87109375,2382.6171875
+"('dataframe-groupby-first-chunk-c178bea3285714c2f28c0cce8ddd3ca9-0ad5a9d6aca4d9d9ff3f96a01eca3bd6', 5)",331.08203125,2628.3515625
+"('dataframe-groupby-first-agg-c178bea3285714c2f28c0cce8ddd3ca9', 0)",334.47265625,334.47265625
+"('reset_index-aab8d87f6c9ec19c99a8464b60818e2c', 0)",334.47265625,334.47265625
+"('getitem-bbd890544e6a01b508e429be4a4f95dd', 0)",0,0
+"('map-c8119b109b0943b53a8a01b14e61645b', 0)",0,0
+"('truediv-3ab4530af5aefca788b16a3c2b887812', 0)",334.47265625,334.47265625
+"('getitem-cc48b4c8b7a520666988b1b67c5ddbd7', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('unique-chunk-3e93670492307b3394f3ef6ff664321b-5b017c12e30a646e2d33293168a8dce3', 0)",334.47265625,334.47265625
+"('unique-agg-3e93670492307b3394f3ef6ff664321b', 0)",0,0
+"('split-e6ade452dcd6d77dc231130dfcb2c064', 0)",334.47265625,334.47265625
+"('split-0-e6ade452dcd6d77dc231130dfcb2c064', 0)",334.7265625,334.7265625
+"('blocks-2b23c6e947e8b2bbc45b0391be66116d', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-0-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('blocks-b6e8ffba3f5366b928de71f112c06e8e', 0)",334.7265625,334.7265625
+"('split-e6ade452dcd6d77dc231130dfcb2c064', 0)",0,0
+"('split-1-e6ade452dcd6d77dc231130dfcb2c064', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('len-chunk-8fe343de241f7449bb00cfb30fc1393f-fdc6761e0c815aee3b34719d5a65e111', 0)",334.7265625,334.7265625
+"('len-agg-8fe343de241f7449bb00cfb30fc1393f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",334.7265625,334.7265625
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-e6ade452dcd6d77dc231130dfcb2c064', 0)",334.7265625,334.7265625
+"('split-1-e6ade452dcd6d77dc231130dfcb2c064', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",334.7265625,334.7265625
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",334.7265625,334.7265625
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",334.7265625,334.7265625
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('len-chunk-8fe343de241f7449bb00cfb30fc1393f-fdc6761e0c815aee3b34719d5a65e111', 0)",0,0
+"('len-agg-8fe343de241f7449bb00cfb30fc1393f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",334.7265625,334.7265625
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",334.7265625,334.7265625
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",334.7265625,334.7265625
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",334.7265625,334.7265625
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",334.7265625,334.7265625
+"('split-e6ade452dcd6d77dc231130dfcb2c064', 0)",334.7265625,334.7265625
+"('split-1-e6ade452dcd6d77dc231130dfcb2c064', 0)",334.7265625,334.7265625
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",0,0
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",334.7265625,334.7265625
+"('len-chunk-8fe343de241f7449bb00cfb30fc1393f-fdc6761e0c815aee3b34719d5a65e111', 0)",0,0
+"('len-agg-8fe343de241f7449bb00cfb30fc1393f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",334.7265625,334.7265625
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",334.7265625,334.7265625
+"('series-count-chunk-d935f49f70d353fc596d92193cf7358b-37df57cce84b71d90d8d109d50c32e89', 0)",0,0
+"('series-sum-chunk-e529a72f565feca0307b3d1f24eae2f3-5036eb7df3ab419238e55910b488f3f1', 0)",0,0
+"('series-count-agg-d935f49f70d353fc596d92193cf7358b', 0)",0,0
+"('series-sum-agg-e529a72f565feca0307b3d1f24eae2f3', 0)",0,0
+"('series-mean-2bb94bd2e10bffdeb18cb8a385d81d50-10a011eb639cf6fd9172f9edc706b5cb', 0)",334.7265625,334.7265625
+"('gt-6f385e3d928a7ccab7b433ff99468ac7', 0)",0,0
+"('split-17797be3f95b79a52f70e0be035df86f', 0)",0,0
+"('split-1-17797be3f95b79a52f70e0be035df86f', 0)",0,0
