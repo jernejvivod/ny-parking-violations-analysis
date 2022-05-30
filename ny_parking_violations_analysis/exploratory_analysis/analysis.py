@@ -18,6 +18,7 @@ def groupby_count(df: dd.DataFrame, col: str, amt: int = 10) -> dd.DataFrame:
 
 
 def plot_bar(df: pd.DataFrame, x: str, y: str, filename: str) -> None:
+    print(df.head())
     ax = df.plot(x=x, y=y, kind='bar')
 
     # Skip crowded ticks, works only for datetime column x
@@ -30,7 +31,7 @@ def plot_bar(df: pd.DataFrame, x: str, y: str, filename: str) -> None:
         ax.set_xticklabels(labels)
 
     plt.tight_layout()
-    plt.savefig(fname=f'ny-parking-violations-analysis/img/{filename}')
+    plt.savefig(fname=f'ny-parking-violations-analysis/results/{filename}')
 
 
 def map_datestr_to_dt(df: dd.DataFrame) -> dd.DataFrame:

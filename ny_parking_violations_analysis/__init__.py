@@ -14,6 +14,7 @@ class Tasks(Enum):
     TASK_1 = 'task-1'
     TASK_2 = 'task-2'
     TASK_3 = 'task-3'
+    TASK_4 = 'task-4'
     TASK_5 = 'task-5'
 
 
