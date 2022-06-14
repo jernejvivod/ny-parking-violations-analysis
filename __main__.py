@@ -134,7 +134,7 @@ def main(**kwargs):
             'top_violations_per_plate_no_blanks.png',
         )
 
-    # TASK 4 (TODO)
+    # TASK 4
     elif kwargs['task'] == Tasks.TASK_4.value:
 
         class Columns(IntEnum):
