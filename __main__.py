@@ -12,10 +12,10 @@ from .ny_parking_violations_analysis import OutputFormat
 from .ny_parking_violations_analysis import Tasks#, MLTask
 from .ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
 from .ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_AUGMENTED_DATASET_PARQUET, PATH_TO_AUGMENTED_DATASET_CSV
-#from .ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
+from .ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
 from .ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
 from .ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
-from .ny_parking_violations_analysis.streaming_analysis.streaming import stream
+from .ny_parking_violations_analysis.streaming_analysis.streaming import stream, stream_cluster, stream_clustering
 from .ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
 from .ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 
@@ -43,15 +43,15 @@ def main(**kwargs):
             raise ValueError('\'{0}\' is not a directory'.format(kwargs['plot_dir_path']))
 
     # TASK 2
-    # elif kwargs['task'] == Tasks.TASK_2.value:
-    #     # compute and save augmented dataset
-    #     augmented_dataset = get_augmented_dataset(kwargs['dataset_path'], data_augmentations=kwargs['augmentations'])
-    #     if kwargs['output_format'] == OutputFormat.PARQUET.value:
-    #         augmented_dataset.to_parquet(PATH_TO_AUGMENTED_DATASET_PARQUET)
-    #     elif kwargs['output_format'] == OutputFormat.CSV.value:
-    #         augmented_dataset.to_csv(PATH_TO_AUGMENTED_DATASET_CSV, single_file=True)
-    #     else:
-    #         raise NotImplementedError()
+    elif kwargs['task'] == Tasks.TASK_2.value:
+        # compute and save augmented dataset
+        augmented_dataset = get_augmented_dataset(kwargs['dataset_path'], data_augmentations=kwargs['augmentations'])
+        if kwargs['output_format'] == OutputFormat.PARQUET.value:
+            augmented_dataset.to_parquet(PATH_TO_AUGMENTED_DATASET_PARQUET)
+        elif kwargs['output_format'] == OutputFormat.CSV.value:
+            augmented_dataset.to_csv(PATH_TO_AUGMENTED_DATASET_CSV, single_file=True)
+        else:
+            raise NotImplementedError()
 
     # TASK 3
     if kwargs['task'] == Tasks.TASK_3.value:
@@ -98,6 +98,15 @@ def main(**kwargs):
             'top_violation_counties.png',
         )
 
+        # top 10 streets with most violations
+        violations_per_street = groupby_count(df, 'Street Name')
+        plot_bar(
+            violations_per_street,
+            'Street Name',
+            'Ticket Count',
+            'top_violations_per_street.png',
+        )
+
         # top 10 states with most violations outside NY
         violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
         plot_bar(
@@ -136,21 +145,23 @@ def main(**kwargs):
         date_stats = stream(Columns.DATE, kwargs['dataset_path'])
         boroughs_stats = stream(Columns.BOROUGH, kwargs['dataset_path'])
         street_stats = stream(Columns.STREET, kwargs['dataset_path'])
+        birch = stream_clustering([4, 21, 24], kwargs['dataset_path'])
 
-        with open('task4_results.txt', 'w') as f:
-            f.write(f'DATE\nMEAN: {date_stats.loc[0, "mean"]}, STD: {date_stats.loc[0, "std"]}')
-            f.write(f'BOROUGHS\nMEAN: {boroughs_stats.loc[0, "mean"]}, STD: {boroughs_stats.loc[0, "std"]}')
-            f.write(f'STREETS\nMEAN: {street_stats.loc[0, "mean"]}, STD: {street_stats.loc[0, "std"]}')
+        with open('task4_results.txt', 'a') as f:
+            f.write(f'DATE\nMEAN: {date_stats.loc[0, "mean"]}, STD: {date_stats.loc[0, "std"]} \n')
+            f.write(f'BOROUGHS\nMEAN: {boroughs_stats.loc[0, "mean"]}, STD: {boroughs_stats.loc[0, "std"]} \n')
+            f.write(f'STREETS\nMEAN: {street_stats.loc[0, "mean"]}, STD: {street_stats.loc[0, "std"]} \n')
+            print(f'CENTROIDS WITH BIRCH CLUSTERING: {birch["cluster"]} \n')
 
-    # # TASK 5
-    # elif kwargs['task'] == Tasks.TASK_5.value:
-    #     # compute and save augmented dataset
-    #     if kwargs['ml_task'] == MLTask.VIOLATIONS_FOR_DAY.value:
-    #         df = read_parquet(kwargs['dataset_path'])
-    #         columns_for_violation = get_base_dataset_columns()
-    #         df_transformed = transform_for_training_day(df, columns_for_violation, 3).repartition(partition_size='128MB').persist()  # Computed dataset is small. Can be persisted in memory.
-    #         x_train, x_test, y_train, y_test = train_test_split(df_transformed.loc[:, df_transformed.columns != 'month'], df_transformed['month'], random_state=0)
-    #         clf_1 = train_with_partial_fit(x_train, y_train, clf=SGDClassifier(), all_classes=df_transformed['month'].unique().compute())
+    # TASK 5
+    elif kwargs['task'] == Tasks.TASK_5.value:
+        # compute and save augmented dataset
+        if kwargs['ml_task'] == MLTask.VIOLATIONS_FOR_DAY.value:
+            df = read_parquet(kwargs['dataset_path'])
+            columns_for_violation = get_base_dataset_columns()
+            df_transformed = transform_for_training_day(df, columns_for_violation, 3).repartition(partition_size='128MB').persist()  # Computed dataset is small. Can be persisted in memory.
+            x_train, x_test, y_train, y_test = train_test_split(df_transformed.loc[:, df_transformed.columns != 'month'], df_transformed['month'], random_state=0)
+            clf_1 = train_with_partial_fit(x_train, y_train, clf=SGDClassifier(), all_classes=df_transformed['month'].unique().compute())
 
 
 if __name__ == '__main__':
@@ -206,7 +217,7 @@ if __name__ == '__main__':
                               default=os.path.join(os.path.dirname(__file__), DATASET_PARQUET_PATH),
                               help='Path to dataset in Parquet format')
 
-    # task5_parser.add_argument('--ml-task', type=str, default=MLTask.VIOLATIONS_FOR_DAY.value, help='ML task to run')
+    task5_parser.add_argument('--ml-task', type=str, default=MLTask.VIOLATIONS_FOR_DAY.value, help='ML task to run')
 
     args = parser.parse_args()
     main(**vars(args))
