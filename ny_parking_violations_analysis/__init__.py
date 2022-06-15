@@ -3,7 +3,7 @@ from enum import Enum
 
 import dask.dataframe as dd
 
-BASE_DATASET_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../data/Parking_Violations_Issued_-_Fiscal_Year_2022_trunc.csv')
+BASE_DATASET_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv')
 DATASET_AVRO_PATH = os.path.join(os.path.dirname(__file__), '../data/avro/dataset.*.avro')
 DATASET_PARQUET_PATH = os.path.join(os.path.dirname(__file__), '../data/parquet/')
 DATASET_HDF_PATH = os.path.join(os.path.dirname(__file__), '../data/hdf/output-*.hdf')

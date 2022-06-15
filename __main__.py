@@ -7,17 +7,17 @@ import matplotlib.pyplot as plt
 from dask_ml.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 
-from .ny_parking_violations_analysis import DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, BASE_DATASET_DEFAULT_PATH, read_parquet
-from .ny_parking_violations_analysis import OutputFormat
-from .ny_parking_violations_analysis import Tasks#, MLTask
-from .ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
-from .ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_AUGMENTED_DATASET_PARQUET, PATH_TO_AUGMENTED_DATASET_CSV
-from .ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
-from .ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
-from .ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
-from .ny_parking_violations_analysis.streaming_analysis.streaming import stream, stream_cluster, stream_clustering
-from .ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
-from .ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
+from ny_parking_violations_analysis import DATASET_AVRO_PATH, SCHEMA_FOR_AVRO, DATASET_PARQUET_PATH, DATASET_HDF_PATH, DATASET_HDF_KEY, BASE_DATASET_DEFAULT_PATH, read_parquet
+from ny_parking_violations_analysis import OutputFormat
+from ny_parking_violations_analysis import Tasks#, MLTask
+from ny_parking_violations_analysis import read_base_dataset, get_base_dataset_columns
+from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_TO_AUGMENTED_DATASET_PARQUET, PATH_TO_AUGMENTED_DATASET_CSV
+from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
+from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
+from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
+from ny_parking_violations_analysis.streaming_analysis.streaming import stream, stream_cluster, stream_clustering
+from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
+from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 
 
 def main(**kwargs):
