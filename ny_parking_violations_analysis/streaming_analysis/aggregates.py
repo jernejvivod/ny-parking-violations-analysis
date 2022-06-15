@@ -28,5 +28,7 @@ class StreamedMeanStd:
 
         return {
             "mean": prev_mean,
+            "var": self._var,
+            "count": self._count,
             "std": math.sqrt(prev_std if abs(prev_std) > 1.0e-16 else 0.0),
         }
