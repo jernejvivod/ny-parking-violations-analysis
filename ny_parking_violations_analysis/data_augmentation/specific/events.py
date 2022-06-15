@@ -12,6 +12,7 @@ from ny_parking_violations_analysis import get_google_api_key
 from ny_parking_violations_analysis.data_augmentation import PATH_TO_CACHED_CONCERTS, PATH_TO_CACHED_GEOCODED_CONCERTS
 from ny_parking_violations_analysis.data_augmentation.specific import WEBSITE_CONCERTS_PATH_TEMPLATE
 from ny_parking_violations_analysis.data_augmentation.specific import name_to_coordinates
+from . import logger
 
 
 def join_with(df: dd) -> dd:
@@ -24,8 +25,12 @@ def join_with(df: dd) -> dd:
 
     # parse cached DataFrame for concerts if exists, else compute new and cache
     if os.path.exists(PATH_TO_CACHED_GEOCODED_CONCERTS):
+        logger.info('Cached distances to nearest concerts exist')
+
         df_concerts_geocoded_cleaned = pd.read_pickle(PATH_TO_CACHED_GEOCODED_CONCERTS)
     else:
+        logger.info('Computing distances to nearest concerts')
+
         # parse cached DataFrame for raw concert data if exists, else compute new and cache
         if os.path.exists(PATH_TO_CACHED_CONCERTS):
             df_concerts = pd.read_pickle(PATH_TO_CACHED_CONCERTS)
@@ -53,7 +58,9 @@ def join_with(df: dd) -> dd:
     num_concerts_on_date = num_concerts_on_date[num_concerts_on_date['Issue Date'] != datetime.min]
     num_concerts_on_date['Issue Date'] = pd.to_datetime(num_concerts_on_date['Issue Date'])
 
-    return dd.merge(df, num_concerts_on_date, on='Issue Date', how='left')
+    df_merged = dd.merge(df, num_concerts_on_date, on='Issue Date', how='left')
+    df_merged['num_concerts'] = df_merged['num_concerts'].fillna(0)
+    return df_merged
 
 
 def parse_concerts(year_limit):

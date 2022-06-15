@@ -1,9 +1,17 @@
+import logging
 import os
 from enum import Enum
 
 import dask.dataframe as dd
+import pandas as pd
 
-BASE_DATASET_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../data/Parking_Violations_Issued_-_Fiscal_Year_2022.csv')
+# module logger
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+BASE_DATASET_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../data/Parking_Violations_Issued_-_Fiscal_Year_2022_trunc.csv')
 DATASET_AVRO_PATH = os.path.join(os.path.dirname(__file__), '../data/avro/dataset.*.avro')
 DATASET_PARQUET_PATH = os.path.join(os.path.dirname(__file__), '../data/parquet/')
 DATASET_HDF_PATH = os.path.join(os.path.dirname(__file__), '../data/hdf/output-*.hdf')
@@ -16,6 +24,7 @@ class Tasks(Enum):
     TASK_3 = 'task-3'
     TASK_4 = 'task-4'
     TASK_5 = 'task-5'
+    SANITY_CHECK = 'sanity-check'
 
 
 class MLTask(Enum):
@@ -124,7 +133,7 @@ def read_base_dataset(base_dataset_path: str, parse_date=True) -> dd:
                          'Hydrant Violation': str,
                          'Double Parking Violation': str,
                      },
-                     blocksize='512MB',
+                     blocksize='256MB',
                      assume_missing=True)
     if parse_date:
         df['Issue Date'] = dd.to_datetime(df['Issue Date'])
@@ -151,3 +160,149 @@ def get_env_data_as_dict(path: str) -> dict:
 
 def get_google_api_key():
     return get_env_data_as_dict(os.path.join(os.path.dirname(__file__), '../.env'))['GOOGLE_API_KEY']
+
+
+COLUMNS_DROP_TASK5_GROUPED_BY_DAY = [
+    'Summons Number',
+    'Plate ID',
+    'Registration State',
+    'Plate Type',
+    'Issue Date',
+    'Violation Code',
+    'Vehicle Body Type',
+    'Vehicle Make',
+    'Issuing Agency',
+    'Street Code1',
+    'Street Code2',
+    'Street Code3',
+    'Vehicle Expiration Date',
+    'Violation Location',
+    'Violation Precinct',
+    'Issuer Precinct',
+    'Issuer Code',
+    'Issuer Command',
+    'Issuer Squad',
+    'Violation Time',
+    'Time First Observed',
+    'Violation County',
+    'Violation In Front Of Or Opposite',
+    'House Number',
+    'Street Name',
+    'Intersecting Street',
+    'Date First Observed',
+    'Law Section',
+    'Sub Division',
+    'Violation Legal Code',
+    'Days Parking In Effect    ',
+    'From Hours In Effect',
+    'To Hours In Effect',
+    'Vehicle Color',
+    'Unregistered Vehicle?',
+    'Vehicle Year',
+    'Meter Number',
+    'Feet From Curb',
+    'Violation Post Code',
+    'Violation Description',
+    'No Standing or Stopping Violation',
+    'Hydrant Violation',
+    'Double Parking Violation',
+    "name",
+    "description",
+    "severerisk",
+    "sunrise",
+    "sunset",
+    "stations",
+    "nearest_school_name",
+    "nearest_business_name",
+    "nearest_attraction_name",
+]
+
+COLUMNS_DROP_TASK5_CAR_MAKE = [
+    'Summons Number',
+    'Plate ID',
+    'Registration State',
+    'Plate Type',
+    'Issue Date',
+    'Violation Code',
+    'Vehicle Body Type',
+    # 'Vehicle Make',
+    'Issuing Agency',
+    'Street Code1',
+    'Street Code2',
+    'Street Code3',
+    'Vehicle Expiration Date',
+    'Violation Location',
+    'Violation Precinct',
+    'Issuer Precinct',
+    'Issuer Code',
+    'Issuer Command',
+    'Issuer Squad',
+    'Violation Time',
+    'Time First Observed',
+    'Violation County',
+    'Violation In Front Of Or Opposite',
+    'House Number',
+    'Street Name',
+    'Intersecting Street',
+    'Date First Observed',
+    'Law Section',
+    'Sub Division',
+    'Violation Legal Code',
+    'Days Parking In Effect    ',
+    'From Hours In Effect',
+    'To Hours In Effect',
+    'Vehicle Color',
+    'Unregistered Vehicle?',
+    'Vehicle Year',
+    'Meter Number',
+    'Feet From Curb',
+    'Violation Post Code',
+    'Violation Description',
+    'No Standing or Stopping Violation',
+    'Hydrant Violation',
+    'Double Parking Violation',
+    'name',
+    'tempmax',
+    'tempmin',
+    'temp',
+    'feelslikemax',
+    'feelslikemin',
+    'feelslike',
+    'dew',
+    'humidity',
+    'precip',
+    'precipprob',
+    'precipcover',
+    'preciptype',
+    'snow',
+    'snowdepth',
+    'windgust',
+    'windspeed',
+    'winddir',
+    'sealevelpressure',
+    'cloudcover',
+    'visibility',
+    'solarradiation',
+    'solarenergy',
+    'uvindex',
+    'severerisk',
+    'sunrise',
+    'sunset',
+    'moonphase',
+    'conditions',
+    'description',
+    'icon',
+    'stations',
+    'nearest_school_dist',
+    'nearest_school_name',
+    'num_concerts',
+    # 'nearest_business_dist',
+    'nearest_business_name',
+    # 'nearest_attraction_dist',
+    'nearest_attraction_name'
+]
+
+
+def is_county_code_valid(county: str):
+    valid_county_codes = pd.read_csv(os.path.join(os.path.dirname(__file__), '../data/valid_county_codes.csv'), header=None)
+    return county in set(valid_county_codes.iloc[:, 0])

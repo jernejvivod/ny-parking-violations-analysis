@@ -1,0 +1,2 @@
+r2-score: 0.182
+rmse-score: 17133.974
