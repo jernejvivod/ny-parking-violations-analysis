@@ -1,4 +1,5 @@
 import argparse
+from enum import IntEnum
 import glob
 import logging
 import os
@@ -16,10 +17,12 @@ from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_T
 from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
 from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
 from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
+from ny_parking_violations_analysis.streaming_analysis.streaming import stream, stream_cluster, stream_clustering
+from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
+from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 from ny_parking_violations_analysis.ml.tasks.ml import evaluate_violations_for_day, evaluate_car_make
 
 # logger
-
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -86,12 +89,12 @@ def main(**kwargs):
             raise NotImplementedError('output format \'{0}\' not recognized')
 
     # TASK 3
-    elif kwargs['task'] == Tasks.TASK_3.value:
+    if kwargs['task'] == Tasks.TASK_3.value:
 
         logger.info('Running task 2 (exploratory data analysis)')
 
         # parse dataset
-        df = read_parquet(kwargs['dataset_path'])
+        df = read_base_dataset(kwargs['dataset_path'])
 
         # violations per day of week
         df['Weekday'] = df['Issue Date'].dt.weekday
@@ -132,6 +135,15 @@ def main(**kwargs):
             'top_violation_counties.png',
         )
 
+        # top 10 streets with most violations
+        violations_per_street = groupby_count(df, 'Street Name')
+        plot_bar(
+            violations_per_street,
+            'Street Name',
+            'Ticket Count',
+            'top_violations_per_street.png',
+        )
+
         # top 10 states with most violations outside NY
         violations_per_state = groupby_count(df, 'Registration State', 11)[1:]
         plot_bar(
@@ -141,10 +153,45 @@ def main(**kwargs):
             'top_violation_states_outside_NY.png',
         )
 
-    # TASK 4 (TODO)
+        # top 10 peope/plates with most violations
+        violations_per_plate = groupby_count(df, 'Plate ID')
+        plot_bar(
+            violations_per_plate,
+            'Plate ID',
+            'Ticket Count',
+            'top_violations_per_plate.png',
+        )
+
+        # top 10 peope/plates with most violations without blank plate
+        violations_per_plate = groupby_count(df, 'Plate ID', 11)[1:]
+        plot_bar(
+            violations_per_plate,
+            'Plate ID',
+            'Ticket Count',
+            'top_violations_per_plate_no_blanks.png',
+        )
+
+    # TASK 4
     elif kwargs['task'] == Tasks.TASK_4.value:
 
+        class Columns(IntEnum):
+            DATE = 4
+            BOROUGH = 21
+            STREET = 24
+
+        date_stats = stream(Columns.DATE, kwargs['dataset_path'])
+        boroughs_stats = stream(Columns.BOROUGH, kwargs['dataset_path'])
+        street_stats = stream(Columns.STREET, kwargs['dataset_path'])
+        birch = stream_clustering([4, 21, 24], kwargs['dataset_path'])
+
+        with open('task4_results.txt', 'a') as f:
+            f.write(f'DATE\nMEAN: {date_stats.loc[0, "mean"]}, STD: {date_stats.loc[0, "std"]} \n')
+            f.write(f'BOROUGHS\nMEAN: {boroughs_stats.loc[0, "mean"]}, STD: {boroughs_stats.loc[0, "std"]} \n')
+            f.write(f'STREETS\nMEAN: {street_stats.loc[0, "mean"]}, STD: {street_stats.loc[0, "std"]} \n')
+            print(f'CENTROIDS WITH BIRCH CLUSTERING: {birch["cluster"]} \n')
+
         logger.info('Running task 4 (stream-based data analysis)')
+
 
     # TASK 5
     elif kwargs['task'] == Tasks.TASK_5.value:
@@ -242,6 +289,13 @@ if __name__ == '__main__':
     task3_parser.add_argument('--dataset-path', type=str,
                               default=os.path.join(os.path.dirname(__file__), PATH_TO_AUGMENTED_DATASET_PARQUET),
                               help='Path to dataset in Parquet format')
+
+    # TASK 4
+    task4_parser = subparsers.add_parser(Tasks.TASK_4.value)
+
+    task4_parser.add_argument('--dataset-path', type=str,
+                              default=os.path.join(os.path.dirname(__file__), BASE_DATASET_DEFAULT_PATH),
+                              help='Path to dataset')
 
     # TASK 5
     task5_parser = subparsers.add_parser(Tasks.TASK_5.value)
