@@ -1,10 +1,11 @@
 import argparse
-from enum import IntEnum
 import glob
 import logging
 import os
 from contextlib import suppress
+from enum import IntEnum
 
+import dask_jobqueue
 import dask_memusage
 import matplotlib.pyplot as plt
 from distributed import Client, LocalCluster
@@ -17,10 +18,8 @@ from ny_parking_violations_analysis.data_augmentation import DataAugEnum, PATH_T
 from ny_parking_violations_analysis.data_augmentation.augment import get_augmented_dataset
 from ny_parking_violations_analysis.exploratory_analysis.analysis import groupby_count, plot_bar
 from ny_parking_violations_analysis.exploratory_analysis.utilities import map_code_to_description
-from ny_parking_violations_analysis.streaming_analysis.streaming import stream, stream_cluster, stream_clustering
-from ny_parking_violations_analysis.ml.ml_pipeline import train_with_partial_fit
-from ny_parking_violations_analysis.ml.transform_dataset import transform_for_training_day
 from ny_parking_violations_analysis.ml.tasks.ml import evaluate_violations_for_day, evaluate_car_make
+from ny_parking_violations_analysis.streaming_analysis.streaming import stream, stream_clustering
 
 # logger
 logging.basicConfig()
@@ -37,9 +36,25 @@ def main(**kwargs):
     if not os.path.isdir(kwargs['mem_usage_path']):
         raise ValueError('{0} is not a directory'.format(kwargs['mem_usage_path']))
 
-    cluster = LocalCluster()
-    client = Client()
-    dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
+    if kwargs['use_slurm_cluster']:
+        cluster = dask_jobqueue.SLURMCluster(
+            queue=kwargs['queue'],
+            n_workers=kwargs['n_workers'],
+            processes=kwargs['processes'],
+            cores=kwargs['cores'],
+            memory=kwargs['memory'],
+            scheduler_options={'dashboard_address': ':8087'},
+            death_timeout=kwargs['death_timeout']
+        )
+        # Problems!
+        # dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
+        client = Client(cluster, timeout="240s")
+        if not kwargs['no_scale']:
+            client.cluster.scale(n=kwargs['n_workers'], jobs=kwargs['n_jobs'], cores=kwargs['cores'], memory=kwargs['memory'])
+    else:
+        cluster = LocalCluster()
+        client = Client()
+        dask_memusage.install(cluster.scheduler, os.path.join(kwargs['mem_usage_path'], 'mem_usage.csv'))
 
     with suppress(Exception):
         client.shutdown()
@@ -89,7 +104,7 @@ def main(**kwargs):
             raise NotImplementedError('output format \'{0}\' not recognized')
 
     # TASK 3
-    if kwargs['task'] == Tasks.TASK_3.value:
+    elif kwargs['task'] == Tasks.TASK_3.value:
 
         logger.info('Running task 2 (exploratory data analysis)')
 
@@ -191,7 +206,6 @@ def main(**kwargs):
             print(f'CENTROIDS WITH BIRCH CLUSTERING: {birch["cluster"]} \n')
 
         logger.info('Running task 4 (stream-based data analysis)')
-
 
     # TASK 5
     elif kwargs['task'] == Tasks.TASK_5.value:

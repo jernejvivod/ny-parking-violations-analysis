@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy
 import pandas as pd
 from sklearn.cluster import Birch
@@ -14,10 +16,10 @@ def stream(col: int, file_name: str) -> dict:
     source = Stream()
     (
         source.map(row_to_array)
-        .pluck(col)
-        .accumulate(groupby_count, start=({}))
-        .map(stats)
-        .sink(r.append)
+            .pluck(col)
+            .accumulate(groupby_count, start=({}))
+            .map(stats)
+            .sink(r.append)
     )
 
     skip = True
@@ -29,16 +31,16 @@ def stream(col: int, file_name: str) -> dict:
     return pd.DataFrame(r[-1], index=[0])
 
 
-def stream_clustering(cols: list[int], file_name: str) -> dict:
+def stream_clustering(cols: List[int], file_name: str) -> dict:
     r = list()
     source = Stream()
     (
         source.map(row_to_array)
-        .pluck(cols)
-        .accumulate(
+            .pluck(cols)
+            .accumulate(
             stream_cluster, start=({'batch': [], 'cluster': Birch(n_clusters=10), 'encoding': {}})
         )
-        .sink(r.append)
+            .sink(r.append)
     )
 
     skip = True
